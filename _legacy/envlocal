@@ -1,14 +1,14 @@
 # Database
 DB_HOST=localhost
 DB_PORT=3306
-DB_NAME=uvammbciwx_truepathexpress
-DB_USER=uvammbciwx_michael
-DB_PASS=Michael@01
+DB_NAME=truepathexpress
+DB_USER=root
+DB_PASS=
 
 # Application
 APP_NAME="TruePath Express"
-APP_URL=https://truepathexpress.com
-APP_ENV=production
+APP_URL=https://truepathexpress.test
+APP_ENV=development
 
 # Security
 SESSION_LIFETIME=3600
@@ -29,4 +29,4 @@ NOWPAYMENTS_IPN_SECRET=ekWpjdc59WMkPz5f7W1P1vZJe/Z8VHjA
 
 
 # Admin Registration — change this to a strong secret code
-ADMIN_INVITE_CODE=CRESTVALEBANK-ADMIN-2026
+ADMIN_INVITE_CODE=TRUEPATHEXPRESS-ADMIN-2026

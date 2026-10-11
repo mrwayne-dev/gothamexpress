@@ -2,7 +2,16 @@
   "permissions": {
     "allow": [
       "Bash(composer validate:*)",
-      "Bash(du -sh:*)"
+      "Bash(du -sh:*)",
+      "Bash(sudo tail -50 /var/log/apache2/error.log)",
+      "Read(//var/log/apache2/**)",
+      "Read(//etc/apache2/sites-enabled/**)",
+      "Bash(sudo tail -80 /var/log/apache2/truepathexpress-error.log)",
+      "Bash(sudo a2enmod headers)",
+      "Bash(sudo systemctl reload apache2)",
+      "Bash(sudo -S a2enmod headers)",
+      "Bash(sudo -S systemctl reload apache2)",
+      "Bash(curl -sk -o /dev/null -w \"HTTP %{http_code}\\\\n\" https://truepathexpress.test/)"
     ]
   }
 }
