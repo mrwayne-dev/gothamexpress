@@ -7,7 +7,6 @@ use App\Models\ContactMessage;
 use App\Notifications\ContactReceivedAdmin;
 use App\Notifications\ContactReceivedUser;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -29,8 +28,8 @@ class ContactController extends Controller
         Notification::route('mail', $data['email'])
             ->notify(new ContactReceivedUser($data['firstname'], $data['inquiry']));
 
-        // Admin copy.
-        $adminTo = config('mail.from.address');
+        // Admin copy (dedicated inbox; falls back to the from-address).
+        $adminTo = env('MAIL_ADMIN_TO') ?: config('mail.from.address');
         if ($adminTo) {
             Notification::route('mail', $adminTo)
                 ->notify(new ContactReceivedAdmin($message));
