@@ -1,0 +1,11 @@
+/* Component CSS — grouped by concern for maintainability.
+   Each file namespaces its selectors with .ge-<component>__part. */
+
+@import './buttons.css';
+@import './forms.css';
+@import './surfaces.css';
+@import './feedback.css';
+@import './data.css';
+@import './nav.css';
+@import './layouts.css';
+@import './pages.css';

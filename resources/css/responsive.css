@@ -1,0 +1,35 @@
+/* Four breakpoints — density tweaks only. Layouts are fluid elsewhere. */
+
+@media (max-width: 1200px) {
+    :root {
+        --font-size-4xl: 2.5rem;
+        --font-size-5xl: 3rem;
+    }
+    .container { padding-inline: var(--space-base); }
+}
+
+@media (max-width: 992px) {
+    :root {
+        --font-size-3xl: 1.75rem;
+        --font-size-4xl: 2.25rem;
+    }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --font-size-3xl: 1.5rem;
+        --font-size-4xl: 2rem;
+    }
+    .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+    .section { padding-block: var(--space-2xl); }
+    .section-lg { padding-block: var(--space-3xl); }
+}
+
+@media (max-width: 576px) {
+    :root {
+        --font-size-4xl: 1.75rem;
+    }
+    .container { padding-inline: var(--space-base); }
+}

@@ -1,0 +1,208 @@
+/* Shell CSS for the four layouts */
+
+/* Admin + User layouts share the sidebar-main pattern */
+.ge-shell {
+    display: flex;
+    min-height: 100vh;
+    background: var(--surface-alt);
+}
+.ge-shell__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+.ge-shell__content {
+    flex: 1;
+    padding: var(--space-lg);
+}
+@media (max-width: 992px) {
+    .ge-shell__content { padding: var(--space-base); }
+}
+
+/* Sidebar overlay (mobile) */
+.ge-shell__overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay);
+    z-index: var(--z-overlay);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-base);
+}
+.ge-shell__overlay--open { opacity: 1; pointer-events: auto; }
+
+/* Public layout */
+.ge-public {
+    min-height: 100vh;
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+}
+.ge-public__main { flex: 1; }
+
+.ge-public-nav {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+.ge-public-nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-base) var(--space-lg);
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    gap: var(--space-lg);
+}
+.ge-public-nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+    color: var(--text);
+}
+.ge-public-nav__links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-base);
+    font-size: var(--font-size-sm);
+}
+.ge-public-nav__links a { color: var(--text-muted); }
+.ge-public-nav__links a:hover { color: var(--text); }
+@media (max-width: 768px) {
+    .ge-public-nav__links { display: none; }
+}
+
+.ge-public-footer {
+    background: var(--color-black);
+    color: var(--color-gray-200);
+    padding: var(--space-3xl) var(--space-lg) var(--space-lg);
+}
+.ge-public-footer__grid {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-xl);
+}
+@media (max-width: 768px) {
+    .ge-public-footer__grid { grid-template-columns: 1fr 1fr; }
+}
+.ge-public-footer__col h5 {
+    color: var(--color-white);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    margin-bottom: var(--space-base);
+}
+.ge-public-footer__col a {
+    display: block;
+    padding: 4px 0;
+    color: var(--color-gray-400);
+    font-size: var(--font-size-sm);
+}
+.ge-public-footer__col a:hover { color: var(--color-white); }
+.ge-public-footer__bottom {
+    max-width: var(--container-xl);
+    margin: var(--space-xl) auto 0;
+    padding-top: var(--space-base);
+    border-top: 1px solid #1A1A1A;
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-400);
+}
+
+/* Auth layout — two-pane */
+.ge-auth {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--surface);
+}
+@media (max-width: 992px) {
+    .ge-auth { grid-template-columns: 1fr; }
+}
+.ge-auth__brand-side {
+    background: var(--color-black);
+    color: var(--color-white);
+    padding: var(--space-3xl);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+.ge-auth__brand-side::after {
+    content: '';
+    position: absolute;
+    inset: auto -20% -40% auto;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-warm) 0%, transparent 60%);
+    opacity: 0.3;
+    pointer-events: none;
+}
+@media (max-width: 992px) {
+    .ge-auth__brand-side { display: none; }
+}
+.ge-auth__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-xl);
+}
+.ge-auth__brand-headline {
+    font-family: var(--font-display);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
+    max-width: 20ch;
+    position: relative;
+    z-index: 1;
+}
+.ge-auth__brand-tagline {
+    color: var(--color-gray-400);
+    font-size: var(--font-size-sm);
+    max-width: 36ch;
+}
+.ge-auth__form-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3xl) var(--space-lg);
+}
+.ge-auth__card {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+.ge-auth__title {
+    font-family: var(--font-display);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--text);
+}
+.ge-auth__subtitle {
+    color: var(--text-muted);
+    margin-top: calc(var(--space-sm) * -1);
+}
+.ge-auth__alt {
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-top: var(--space-base);
+}
+.ge-auth__alt a { color: var(--accent); font-weight: var(--font-weight-medium); }

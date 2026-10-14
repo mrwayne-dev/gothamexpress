@@ -1,0 +1,70 @@
+/* Element defaults using tokens. */
+
+html {
+    font-size: 16px;
+    font-family: var(--font-sans);
+}
+
+body {
+    background-color: var(--surface);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+h1 {
+    font-family: var(--font-display);
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-display);
+}
+h2 {
+    font-family: var(--font-display);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+}
+h3 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+}
+h4 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+}
+h5 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+}
+h6 {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+}
+
+p {
+    color: var(--text-muted);
+}
+
+a {
+    color: var(--accent);
+    transition: color var(--transition-fast);
+}
+a:hover {
+    color: var(--accent-hover);
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--border);
+    margin: var(--space-xl) 0;
+}
+
+code, kbd, samp, pre {
+    font-family: var(--font-mono);
+    font-size: 0.95em;
+}
+
+::selection {
+    background: var(--accent);
+    color: var(--text-inverse);
+}

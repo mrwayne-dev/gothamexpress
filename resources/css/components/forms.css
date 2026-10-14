@@ -1,0 +1,247 @@
+/* FormField, FormInput, FormSelect, FormTextarea, FormCheckbox, CodeInput,
+   SearchBar, DatePicker, FileUpload */
+
+.ge-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.ge-field__label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text);
+    display: inline-flex;
+    gap: 4px;
+}
+.ge-field__required { color: var(--color-error); }
+
+.ge-field__help {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.ge-field__error {
+    font-size: var(--font-size-xs);
+    color: var(--color-error);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.ge-input,
+.ge-select,
+.ge-textarea {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-sm);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
+        background-color var(--transition-fast);
+}
+
+.ge-input::placeholder,
+.ge-textarea::placeholder {
+    color: var(--text-subtle);
+}
+
+.ge-input:hover,
+.ge-select:hover,
+.ge-textarea:hover {
+    border-color: var(--border-strong);
+}
+
+.ge-input:focus,
+.ge-select:focus,
+.ge-textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: var(--shadow-focus);
+}
+
+.ge-input--error,
+.ge-select--error,
+.ge-textarea--error {
+    border-color: var(--color-error);
+}
+
+.ge-textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: var(--line-height-normal);
+}
+
+.ge-textarea__count {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--text-subtle);
+    text-align: right;
+    margin-top: 4px;
+}
+
+.ge-select {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+                      linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50%;
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: var(--space-2xl);
+}
+
+/* Checkbox */
+.ge-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    cursor: pointer;
+    user-select: none;
+}
+.ge-checkbox input[type='checkbox'] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    display: inline-grid;
+    place-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+.ge-checkbox input[type='checkbox']:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+.ge-checkbox input[type='checkbox']:checked::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: var(--text-inverse);
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+/* 6-digit code input */
+.ge-code-input {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: center;
+}
+.ge-code-input__box {
+    width: 48px;
+    height: 56px;
+    text-align: center;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-variant-numeric: tabular-nums;
+    transition: all var(--transition-fast);
+}
+.ge-code-input__box:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: var(--shadow-focus);
+}
+.ge-code-input--error .ge-code-input__box {
+    border-color: var(--color-error);
+    animation: ge-shake 0.4s ease;
+}
+@keyframes ge-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+/* SearchBar */
+.ge-search {
+    position: relative;
+    width: 100%;
+}
+.ge-search__input {
+    width: 100%;
+    padding: 10px 36px 10px 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    color: var(--text);
+}
+.ge-search__input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: var(--shadow-focus);
+}
+.ge-search__icon,
+.ge-search__clear {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    display: inline-flex;
+}
+.ge-search__icon { left: 12px; pointer-events: none; }
+.ge-search__clear { right: 10px; cursor: pointer; padding: 4px; }
+
+/* DatePicker */
+.ge-datepicker {
+    display: inline-flex;
+    gap: var(--space-sm);
+    align-items: center;
+}
+.ge-datepicker input[type='date'] {
+    padding: 8px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-sm);
+}
+
+/* FileUpload */
+.ge-file {
+    border: 2px dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    text-align: center;
+    background: var(--surface-alt);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+.ge-file:hover,
+.ge-file--dragging {
+    border-color: var(--accent);
+    background: var(--surface);
+}
+.ge-file__hint {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-top: var(--space-sm);
+}
+.ge-file__preview {
+    margin-top: var(--space-base);
+    display: flex;
+    justify-content: center;
+}
+.ge-file__preview img {
+    max-height: 120px;
+    border-radius: var(--radius-md);
+}
+
+/* Form row (two inputs side-by-side) */
+.ge-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-base);
+}
+@media (max-width: 576px) {
+    .ge-form-row { grid-template-columns: 1fr; }
+}

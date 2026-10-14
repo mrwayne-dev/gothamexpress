@@ -1,0 +1,220 @@
+/* Card, StatCard, EmptyState, PackageCard, WalletAddressCard */
+
+.ge-card {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.ge-card--elevated {
+    border-color: transparent;
+    box-shadow: var(--shadow-md);
+}
+.ge-card--highlight {
+    background: linear-gradient(135deg, var(--surface-raised) 0%, var(--surface-accent-soft) 100%);
+    border-color: var(--accent-warm);
+}
+.ge-card--inverse {
+    background: var(--surface-inverse);
+    color: var(--text-inverse);
+    border-color: var(--border-inverse);
+}
+
+.ge-card__header {
+    padding: var(--space-base) var(--space-lg);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-base);
+}
+.ge-card__title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text);
+}
+.ge-card--inverse .ge-card__header { border-color: var(--border-inverse); }
+.ge-card__body { padding: var(--space-lg); }
+.ge-card__body--flush { padding: 0; }
+.ge-card__footer {
+    padding: var(--space-base) var(--space-lg);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-sm);
+}
+
+/* StatCard — two variants: boxed (default) and grid (divider-based like references) */
+.ge-stat {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    transition: border-color var(--transition-fast);
+}
+.ge-stat__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-alt);
+    color: var(--accent);
+    font-size: 20px;
+}
+.ge-stat__value {
+    font-family: var(--font-display);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text);
+    line-height: var(--line-height-tight);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--letter-spacing-tight);
+}
+.ge-stat__label {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+.ge-stat__trend {
+    font-size: var(--font-size-xs);
+    color: var(--color-success);
+}
+.ge-stat__trend--down { color: var(--color-error); }
+
+/* Grid variant — divider-based layout from featuremain reference */
+.ge-stat--grid {
+    border: 0;
+    border-radius: 0;
+    border-right: 1px solid var(--border);
+    padding: var(--space-xl);
+    background: transparent;
+}
+.ge-stat--grid .ge-stat__value {
+    font-size: var(--font-size-5xl);
+    letter-spacing: var(--letter-spacing-tight);
+}
+.ge-stat--grid:last-child { border-right: 0; }
+
+/* EmptyState */
+.ge-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: var(--space-base);
+    padding: var(--space-3xl) var(--space-lg);
+}
+.ge-empty__icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-alt);
+    color: var(--text-muted);
+    font-size: 28px;
+}
+.ge-empty__title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text);
+}
+.ge-empty__message {
+    color: var(--text-muted);
+    max-width: 36ch;
+}
+
+/* PackageCard */
+.ge-pkg-card {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    transition: all var(--transition-fast);
+}
+.ge-pkg-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-sm);
+}
+.ge-pkg-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+}
+.ge-pkg-card__tracking {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    color: var(--accent);
+    font-weight: var(--font-weight-medium);
+}
+.ge-pkg-card__name {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text);
+}
+.ge-pkg-card__meta {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+.ge-pkg-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+}
+
+/* WalletAddressCard */
+.ge-wallet {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-base);
+}
+.ge-wallet__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+.ge-wallet__currency {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text);
+}
+.ge-wallet__network {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    color: var(--text-muted);
+    padding: 2px 8px;
+    background: var(--surface-alt);
+    border-radius: var(--radius-sm);
+}
+.ge-wallet__address {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    word-break: break-all;
+    color: var(--text-muted);
+    background: var(--surface-alt);
+    padding: var(--space-sm);
+    border-radius: var(--radius-sm);
+}
+.ge-wallet__actions {
+    display: flex;
+    gap: var(--space-sm);
+}

@@ -1,0 +1,35 @@
+<?php
+
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use Illuminate\Support\Facades\Route;
+
+// Coming-soon stub for /. Day 2 replaces with the marketing home.
+Route::get('/', [HomeController::class, 'comingSoon'])->name('home');
+
+// Theme preference (open to guests and users; just writes a cookie).
+Route::post('/preferences/theme', [ThemeController::class, 'update'])->name('preferences.theme');
+
+// Auth routes (login, register, verify, forgot/reset, admin register, logout).
+require __DIR__.'/auth.php';
+
+// Admin area — any admin role may view; sub-section gating happens in Day 3+.
+Route::middleware(['auth', 'verified.email', 'role:super_admin,operator'])
+    ->prefix('admin')->name('admin.')
+    ->group(function () {
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    });
+
+// User area.
+Route::middleware(['auth', 'verified.email', 'role:user'])
+    ->prefix('dashboard')->name('user.')
+    ->group(function () {
+        Route::get('/', [UserDashboardController::class, 'index'])->name('dashboard');
+    });
+
+// Dev-only components gallery.
+if (! app()->environment('production')) {
+    require __DIR__.'/dev.php';
+}
