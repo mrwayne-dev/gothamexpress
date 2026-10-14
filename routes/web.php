@@ -1,13 +1,22 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PublicController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use Illuminate\Support\Facades\Route;
 
-// Coming-soon stub for /. Day 2 replaces with the marketing home.
-Route::get('/', [HomeController::class, 'comingSoon'])->name('home');
+// Marketing site.
+Route::get('/', [PublicController::class, 'home'])->name('home');
+Route::get('/about', [PublicController::class, 'about'])->name('about');
+Route::get('/services', [PublicController::class, 'services'])->name('services');
+Route::get('/policy', [PublicController::class, 'policy'])->name('policy');
+Route::get('/terms', [PublicController::class, 'terms'])->name('terms');
+
+// Contact.
+Route::get('/contact', [ContactController::class, 'create'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:5,10');
 
 // Theme preference (open to guests and users; just writes a cookie).
 Route::post('/preferences/theme', [ThemeController::class, 'update'])->name('preferences.theme');
