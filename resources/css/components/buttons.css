@@ -42,11 +42,11 @@
 .ge-btn--primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 
 .ge-btn--secondary {
-    background: var(--accent-warm);
+    background: var(--text);
     color: var(--text-inverse);
-    border-color: var(--accent-warm);
+    border-color: var(--text);
 }
-.ge-btn--secondary:hover { background: var(--accent-warm-hover); border-color: var(--accent-warm-hover); }
+.ge-btn--secondary:hover { background: var(--color-ink-800); border-color: var(--color-ink-800); }
 
 .ge-btn--outline {
     background: transparent;

@@ -12,8 +12,8 @@
     box-shadow: var(--shadow-md);
 }
 .ge-card--highlight {
-    background: linear-gradient(135deg, var(--surface-raised) 0%, var(--surface-accent-soft) 100%);
-    border-color: var(--accent-warm);
+    background: var(--surface-accent-soft);
+    border-color: var(--accent);
 }
 .ge-card--inverse {
     background: var(--surface-inverse);

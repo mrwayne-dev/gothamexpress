@@ -16,17 +16,22 @@ body {
 
 h1 {
     font-family: var(--font-display);
-    font-size: var(--font-size-4xl);
-    font-weight: var(--font-weight-display);
+    font-size: var(--font-size-6xl);
+    font-weight: var(--font-weight-black);
+    letter-spacing: var(--letter-spacing-tightest);
+    line-height: var(--line-height-tight);
 }
 h2 {
     font-family: var(--font-display);
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-black);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-snug);
 }
 h3 {
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-tight);
 }
 h4 {
     font-size: var(--font-size-xl);
@@ -66,5 +71,27 @@ code, kbd, samp, pre {
 
 ::selection {
     background: var(--accent);
-    color: var(--text-inverse);
+    color: var(--color-white);
 }
+
+/* Monospace small-caps label used throughout the editorial sections */
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--text);
+}
+.eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.eyebrow--muted { color: var(--text-muted); }
+.eyebrow--muted::before { background: var(--text-muted); }

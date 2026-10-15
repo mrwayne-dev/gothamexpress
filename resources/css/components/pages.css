@@ -1,66 +1,9 @@
-/* Pages: coming-soon stub, dev gallery, auth-specific tweaks */
+/* Dev gallery (local-only route). The coming-soon page from Day 1 was
+   replaced by the real Home — those styles are gone. */
 
-.ge-coming {
-    min-height: 100vh;
-    background: var(--color-black);
-    color: var(--color-white);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: var(--space-xl);
-    gap: var(--space-xl);
-    position: relative;
-    overflow: hidden;
-}
-.ge-coming::before {
-    content: '';
-    position: absolute;
-    inset: auto -20% -40% -20%;
-    height: 70%;
-    background: radial-gradient(ellipse at center bottom, var(--accent-warm) 0%, transparent 60%);
-    opacity: 0.25;
-    pointer-events: none;
-}
-.ge-coming__brand {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-sm);
-    font-family: var(--font-display);
-    font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-xl);
-    letter-spacing: var(--letter-spacing-tight);
-    z-index: 1;
-}
-.ge-coming__title {
-    font-family: var(--font-display);
-    font-size: var(--font-size-5xl);
-    font-weight: var(--font-weight-display);
-    letter-spacing: var(--letter-spacing-tight);
-    line-height: var(--line-height-tight);
-    max-width: 16ch;
-    z-index: 1;
-}
-.ge-coming__accent { color: var(--accent); }
-.ge-coming__tagline {
-    color: var(--color-gray-400);
-    font-size: var(--font-size-lg);
-    max-width: 56ch;
-    z-index: 1;
-}
-.ge-coming__footer {
-    position: absolute;
-    bottom: var(--space-lg);
-    font-size: var(--font-size-xs);
-    color: var(--color-gray-600);
-    z-index: 1;
-}
-
-/* Dev gallery */
 .ge-dev {
     padding: var(--space-xl);
-    max-width: var(--container-xl);
+    max-width: var(--container-2xl);
     margin: 0 auto;
 }
 .ge-dev__header {
@@ -75,7 +18,8 @@
 .ge-dev__title {
     font-family: var(--font-display);
     font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-black);
+    letter-spacing: var(--letter-spacing-tight);
 }
 .ge-dev__section {
     margin-bottom: var(--space-2xl);
@@ -83,7 +27,7 @@
 .ge-dev__section-title {
     font-size: var(--font-size-xs);
     text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wide);
+    letter-spacing: var(--letter-spacing-wider);
     color: var(--text-muted);
     margin-bottom: var(--space-base);
 }
@@ -95,7 +39,7 @@
 .ge-dev__card {
     background: var(--surface-raised);
     border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     padding: var(--space-base);
     display: flex;
     flex-direction: column;
@@ -105,7 +49,7 @@
 .ge-dev__card-title {
     font-size: var(--font-size-xs);
     text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wide);
+    letter-spacing: var(--letter-spacing-wider);
     color: var(--text-muted);
     padding-bottom: var(--space-xs);
     border-bottom: 1px solid var(--border);

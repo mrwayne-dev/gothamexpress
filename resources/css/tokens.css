@@ -1,56 +1,60 @@
 /* ============================================================
-   Gotham Express — Design Tokens
-   Light-mode defaults on :root. Dark-mode overrides below.
-   Palette hexes stay fixed; only semantic tokens flip.
+   Gotham Express — Design Tokens v2 (editorial / warm-cream)
+   Palette derived from the hero reference. No gradients used
+   as structural colour; only solid tones and single-colour fills.
    ============================================================ */
 
 :root {
     /* --- Palette (fixed) --- */
-    --color-black: #000000;
-    --color-blue: #3478F7;
-    --color-orange: #EC562E;
-    --color-peach: #F3D2C6;
+    --color-ink: #17110A;           /* near-black warm (text, nav, inverse surfaces) */
+    --color-ink-800: #1C130B;       /* dark panel surface */
+    --color-ink-700: #2A1D11;       /* subtle warm dark */
+    --color-ink-500: #4A3826;       /* mid warm */
+    --color-ink-400: #6B553E;       /* body on cream — subdued */
+    --color-ink-300: #8E7A62;       /* placeholder / weak text */
+
+    --color-cream: #F5EFE3;         /* page background */
+    --color-cream-alt: #EEE5D4;     /* alt sections */
+    --color-cream-raised: #FBF6EC;  /* cards on cream */
+    --color-bone: #F0E7D3;          /* borders / dividers on cream */
+
+    --color-orange: #EC562E;        /* primary accent (tangerine) */
+    --color-orange-ink: #B33E1D;    /* hover / pressed */
+    --color-orange-soft: #F6E1CD;   /* soft accent panel */
+
     --color-white: #FFFFFF;
+    --color-black: #000000;
 
-    --color-gray-50: #FAFAFA;
-    --color-gray-100: #F5F5F5;
-    --color-gray-200: #E5E5E5;
-    --color-gray-400: #A3A3A3;
-    --color-gray-600: #525252;
-    --color-gray-800: #262626;
+    --color-success: #157347;
+    --color-error: #B23420;
+    --color-warning: #B6761A;
+    --color-info: #214E8A;
 
-    --color-success: #16A34A;
-    --color-error: #DC2626;
-    --color-warning: #F59E0B;
-    --color-info: #3478F7;
+    /* --- Semantic (light default = cream page) --- */
+    --surface: var(--color-cream);
+    --surface-alt: var(--color-cream-alt);
+    --surface-raised: var(--color-cream-raised);
+    --surface-sunken: var(--color-bone);
+    --surface-inverse: var(--color-ink);
+    --surface-accent-soft: var(--color-orange-soft);
 
-    /* --- Semantic (light default) --- */
-    --surface: var(--color-white);
-    --surface-alt: var(--color-gray-50);
-    --surface-raised: var(--color-white);
-    --surface-sunken: var(--color-gray-100);
-    --surface-inverse: var(--color-black);
-    --surface-accent-soft: var(--color-peach);
+    --text: var(--color-ink);
+    --text-muted: var(--color-ink-400);
+    --text-subtle: var(--color-ink-300);
+    --text-inverse: var(--color-cream);
 
-    --text: var(--color-black);
-    --text-muted: var(--color-gray-600);
-    --text-subtle: var(--color-gray-400);
-    --text-inverse: var(--color-white);
+    --border: var(--color-bone);
+    --border-strong: var(--color-ink-300);
+    --border-inverse: #3A2918;
 
-    --border: var(--color-gray-200);
-    --border-strong: var(--color-gray-400);
-    --border-inverse: var(--color-gray-800);
+    --accent: var(--color-orange);
+    --accent-hover: var(--color-orange-ink);
+    --accent-soft: var(--color-orange-soft);
 
-    --accent: var(--color-blue);
-    --accent-hover: #2A66D4;
-    --accent-warm: var(--color-orange);
-    --accent-warm-hover: #D44A24;
-    --accent-soft: var(--color-peach);
+    --focus-ring: rgba(236, 86, 46, 0.35);
+    --overlay: rgba(23, 17, 10, 0.65);
 
-    --focus-ring: rgba(52, 120, 247, 0.4);
-    --overlay: rgba(0, 0, 0, 0.55);
-
-    /* --- Typography --- */
+    /* --- Typography (Golos Text only) --- */
     --font-sans: 'Golos Text', system-ui, -apple-system, Segoe UI, sans-serif;
     --font-display: 'Golos Text', system-ui, -apple-system, Segoe UI, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -62,51 +66,58 @@
     --font-size-xl: 1.25rem;      /* 20 */
     --font-size-2xl: 1.5rem;      /* 24 */
     --font-size-3xl: 2rem;        /* 32 */
-    --font-size-4xl: 3rem;        /* 48 */
-    --font-size-5xl: 3.75rem;     /* 60 */
+    --font-size-4xl: 2.75rem;     /* 44 */
+    --font-size-5xl: 4rem;        /* 64 */
+    --font-size-6xl: 5.5rem;      /* 88 */
+    --font-size-display: 7rem;    /* 112 */
 
     --font-weight-regular: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
     --font-weight-display: 800;
+    --font-weight-black: 900;
 
-    --line-height-tight: 1.1;
-    --line-height-snug: 1.25;
+    --line-height-tight: 1.02;
+    --line-height-snug: 1.15;
     --line-height-normal: 1.5;
     --line-height-relaxed: 1.7;
 
-    --letter-spacing-tight: -0.02em;
+    --letter-spacing-tightest: -0.045em;
+    --letter-spacing-tight: -0.025em;
     --letter-spacing-normal: 0;
-    --letter-spacing-wide: 0.04em;
-    --letter-spacing-wider: 0.08em;
+    --letter-spacing-wide: 0.08em;
+    --letter-spacing-wider: 0.14em;
 
-    /* --- Spacing scale (4px base) --- */
+    /* --- Spacing (4px base) --- */
     --space-0: 0;
-    --space-xs: 0.25rem;   /* 4 */
-    --space-sm: 0.5rem;    /* 8 */
-    --space-md: 0.75rem;   /* 12 */
-    --space-base: 1rem;    /* 16 */
-    --space-lg: 1.5rem;    /* 24 */
-    --space-xl: 2rem;      /* 32 */
-    --space-2xl: 3rem;     /* 48 */
-    --space-3xl: 4rem;     /* 64 */
-    --space-4xl: 6rem;     /* 96 */
-    --space-5xl: 8rem;     /* 128 */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 0.75rem;
+    --space-base: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+    --space-4xl: 6rem;
+    --space-5xl: 8rem;
+    --space-6xl: 10rem;
 
-    /* --- Radius --- */
+    /* --- Radius (small / sharp — editorial, not pillow-shaped) --- */
+    --radius-xs: 2px;
     --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
-    --radius-2xl: 24px;
+    --radius-md: 6px;
+    --radius-lg: 10px;
+    --radius-xl: 14px;
+    --radius-pill: 999px;
     --radius-full: 9999px;
 
-    /* --- Shadow --- */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 24px 50px rgba(0, 0, 0, 0.14);
+    /* --- Shadow — reserved for floating UI only (modals, dropdowns, toasts).
+         Marketing surfaces use flat borders, not shadows. --- */
+    --shadow-sm: 0 1px 2px rgba(23, 17, 10, 0.06);
+    --shadow-md: 0 6px 20px rgba(23, 17, 10, 0.08);
+    --shadow-lg: 0 16px 40px rgba(23, 17, 10, 0.12);
+    --shadow-xl: 0 28px 60px rgba(23, 17, 10, 0.18);
     --shadow-focus: 0 0 0 3px var(--focus-ring);
 
     /* --- Transition --- */
@@ -114,12 +125,13 @@
     --transition-base: 200ms ease;
     --transition-slow: 320ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
-    /* --- Container widths --- */
+    /* --- Container widths (bumped per request) --- */
     --container-sm: 640px;
     --container-md: 768px;
     --container-lg: 1024px;
-    --container-xl: 1200px;
-    --container-max: 1320px;
+    --container-xl: 1280px;
+    --container-2xl: 1440px;
+    --container-max: 1600px;
 
     /* --- Z-index --- */
     --z-base: 1;
@@ -134,38 +146,37 @@
 }
 
 /* ============================================================
-   Dark mode — redefine only semantic tokens.
+   Dark mode — carries the editorial feel to an ink-first page.
+   Still no gradients.
    ============================================================ */
 :root[data-theme='dark'] {
-    --surface: #0A0A0A;
-    --surface-alt: #121212;
-    --surface-raised: #171717;
-    --surface-sunken: #050505;
-    --surface-inverse: var(--color-white);
-    --surface-accent-soft: #2A1E1A;
+    --surface: #0D0A06;
+    --surface-alt: #141009;
+    --surface-raised: #1A140B;
+    --surface-sunken: #080604;
+    --surface-inverse: var(--color-cream);
+    --surface-accent-soft: #2F2016;
 
-    --text: #F5F5F5;
-    --text-muted: #A3A3A3;
-    --text-subtle: #737373;
-    --text-inverse: var(--color-black);
+    --text: #F3EADB;
+    --text-muted: #A8957B;
+    --text-subtle: #6E5B47;
+    --text-inverse: var(--color-ink);
 
-    --border: #262626;
-    --border-strong: #404040;
-    --border-inverse: var(--color-gray-200);
+    --border: #2B2016;
+    --border-strong: #4A3826;
+    --border-inverse: var(--color-bone);
 
-    --accent: var(--color-blue);
-    --accent-hover: #528EFF;
-    --accent-warm: var(--color-orange);
-    --accent-warm-hover: #FF6B3F;
-    --accent-soft: #2A1E1A;
+    --accent: var(--color-orange);
+    --accent-hover: #FF6B3F;
+    --accent-soft: #2F2016;
 
-    --focus-ring: rgba(82, 142, 255, 0.5);
-    --overlay: rgba(0, 0, 0, 0.75);
+    --focus-ring: rgba(255, 107, 63, 0.45);
+    --overlay: rgba(0, 0, 0, 0.78);
 
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
-    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.55);
-    --shadow-xl: 0 24px 50px rgba(0, 0, 0, 0.65);
+    --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+    --shadow-xl: 0 28px 60px rgba(0, 0, 0, 0.7);
 
     color-scheme: dark;
 }

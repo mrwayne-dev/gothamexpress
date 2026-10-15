@@ -14,14 +14,14 @@
     top: 0;
 }
 .ge-sidebar--inverse {
-    background: var(--color-black);
-    border-right-color: #1A1A1A;
-    color: var(--color-white);
+    background: var(--color-ink);
+    border-right-color: var(--color-ink-700);
+    color: var(--color-cream);
 }
 .ge-sidebar--inverse .ge-sidebar__brand,
-.ge-sidebar--inverse .ge-sidebar__section-title { color: var(--color-gray-400); }
-.ge-sidebar--inverse .ge-sidebar__item { color: var(--color-gray-200); }
-.ge-sidebar--inverse .ge-sidebar__item:hover { background: #1A1A1A; }
+.ge-sidebar--inverse .ge-sidebar__section-title { color: var(--color-ink-300); }
+.ge-sidebar--inverse .ge-sidebar__item { color: var(--color-bone); }
+.ge-sidebar--inverse .ge-sidebar__item:hover { background: var(--color-ink-800); }
 .ge-sidebar--inverse .ge-sidebar__item--active {
     background: var(--accent);
     color: var(--color-white);
@@ -88,7 +88,7 @@
     padding: var(--space-base) var(--space-sm);
     border-top: 1px solid var(--border);
 }
-.ge-sidebar--inverse .ge-sidebar__footer { border-top-color: #1A1A1A; }
+.ge-sidebar--inverse .ge-sidebar__footer { border-top-color: var(--color-ink-700); }
 
 .ge-sidebar__user {
     display: flex;
