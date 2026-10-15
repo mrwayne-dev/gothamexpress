@@ -3,13 +3,13 @@
    One file per layout, kept together for review.
    ============================================================ */
 
-/* --- 1. Hero (herosection.webp) — 100vh with bolder frame ---------- */
+/* --- 1. Hero (herosection.webp) — 95vh with bolder frame ----------- */
 .ge-hero {
     position: relative;
     padding: var(--space-lg) 0;
     background: var(--surface);
-    min-height: calc(100vh - 65px);
-    min-height: calc(100dvh - 65px);
+    min-height: calc(95vh - 65px);
+    min-height: calc(95dvh - 65px);
     display: flex;
     align-items: stretch;
 }
@@ -79,16 +79,35 @@
     gap: var(--space-xl);
     padding-right: var(--space-base);
 }
+
+/* Reserve vertical space for the dynamic headline so swapping industries
+   doesn't shift the layout below it (the actions + dropdown). */
+.ge-hero__title-wrap {
+    min-height: 240px;
+    display: flex;
+    align-items: flex-end;
+    margin-top: var(--space-base);
+}
 .ge-hero__title {
     font-family: var(--font-display);
-    font-size: clamp(2.75rem, 6vw, 6.5rem);
-    font-weight: var(--font-weight-black);
-    letter-spacing: var(--letter-spacing-tightest);
-    line-height: 0.98;
+    font-size: clamp(2rem, 4.4vw, 4.75rem);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: 1.04;
     color: var(--text);
-    max-width: 14ch;
-    margin: var(--space-base) 0 0;
-    transition: opacity var(--transition-slow);
+    max-width: 15ch;
+    margin: 0;
+    /* word-stagger needs each word to be inline-block for transforms */
+}
+.ge-hero__title-word {
+    display: inline-block;
+    will-change: transform, opacity;
+}
+@media (max-width: 992px) {
+    .ge-hero__title-wrap { min-height: 180px; }
+}
+@media (max-width: 576px) {
+    .ge-hero__title-wrap { min-height: 140px; }
 }
 .ge-hero__actions {
     margin-top: var(--space-xl);
@@ -323,11 +342,18 @@
     opacity: 0.5;
     border-radius: 1px;
     min-height: 4px;
+    transform-origin: bottom;
+    will-change: transform, opacity;
 }
 .ge-hero__dash-bar--hot {
     background: var(--accent);
     opacity: 1;
 }
+
+/* Reserve vertical space on the right pane so the industry switch's exit
+   animation doesn't let the dashboard collapse to zero height. */
+.ge-hero__right { min-height: 440px; }
+@media (max-width: 992px) { .ge-hero__right { min-height: 420px; } }
 
 @media (max-width: 992px) {
     .ge-hero { min-height: auto; padding-block: var(--space-2xl); }

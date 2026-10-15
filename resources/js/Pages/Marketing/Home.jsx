@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
+import { AnimatePresence, motion } from 'motion/react';
 import {
     ArrowRight, ArrowUpRight, CaretDown, Clock, Gauge, Package,
     ShieldCheck, Users,
@@ -7,6 +8,9 @@ import {
 import { PublicLayout } from '@/Layouts/PublicLayout';
 import { WorldMapMini } from '@/Components/Data/WorldMapMini';
 import { Accordion } from '@/Components/Data/Accordion';
+import {
+    barItem, EASE, fadeInUp, hoverLift, splitWords, staggerParent, swapOut, wordItem, wordStagger,
+} from '@/Lib/motion';
 
 export default function Home() {
     return (
@@ -158,26 +162,60 @@ function Hero() {
     return (
         <section className="ge-hero">
             <div className="container">
-                <div className="ge-hero__frame">
+                <motion.div
+                    className="ge-hero__frame"
+                    initial="hidden"
+                    animate="show"
+                    variants={staggerParent(0.08, 0.1)}
+                >
                     <span className="ge-hero__corner-tr" aria-hidden="true" />
                     <span className="ge-hero__corner-bl" aria-hidden="true" />
 
                     <div className="ge-hero__grid">
                         <div className="ge-hero__left">
-                            <h1 className="ge-hero__title" key={industry.key}>
-                                {industry.headline}
-                            </h1>
+                            {/* Headline: word-stagger reveal that re-fires on industry change */}
+                            <motion.div className="ge-hero__title-wrap" variants={fadeInUp}>
+                                <AnimatePresence mode="wait">
+                                    <motion.h1
+                                        key={industry.key}
+                                        className="ge-hero__title"
+                                        variants={wordStagger}
+                                        initial="hidden"
+                                        animate="show"
+                                        exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+                                    >
+                                        {splitWords(industry.headline).map((word, i) => (
+                                            word.match(/^\s+$/) ? (
+                                                <span key={i}>{word}</span>
+                                            ) : (
+                                                <motion.span
+                                                    key={i}
+                                                    className="ge-hero__title-word"
+                                                    variants={wordItem}
+                                                >
+                                                    {word}
+                                                </motion.span>
+                                            )
+                                        ))}
+                                    </motion.h1>
+                                </AnimatePresence>
+                            </motion.div>
 
-                            <div className="ge-hero__actions">
+                            <motion.div className="ge-hero__actions" variants={fadeInUp}>
                                 <Link href="/register" className="ge-btn ge-btn--secondary ge-btn--lg">
                                     Request a demo
                                 </Link>
                                 <Link href="/services" className="ge-btn ge-btn--outline ge-btn--lg">
                                     Explore the platform
                                 </Link>
-                            </div>
+                            </motion.div>
 
-                            <div className="ge-industry" data-open={open} ref={panelRef}>
+                            <motion.div
+                                className="ge-industry"
+                                data-open={open}
+                                ref={panelRef}
+                                variants={fadeInUp}
+                            >
                                 <span className="ge-industry__label">Industry</span>
                                 <button
                                     type="button"
@@ -191,44 +229,59 @@ function Hero() {
                                         <CaretDown weight="bold" size={14} />
                                     </span>
                                 </button>
-                                {open ? (
-                                    <ul className="ge-industry__panel" role="listbox" aria-label="Industries">
-                                        {INDUSTRIES.map(opt => (
-                                            <li key={opt.key}>
-                                                <button
-                                                    type="button"
-                                                    className={`ge-industry__item${opt.key === industry.key ? ' ge-industry__item--active' : ''}`}
-                                                    onClick={() => select(opt)}
-                                                    role="option"
-                                                    aria-selected={opt.key === industry.key}
-                                                >
-                                                    <span className="ge-industry__item-dot" aria-hidden="true" />
-                                                    {opt.label}
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : null}
-                            </div>
+                                <AnimatePresence>
+                                    {open ? (
+                                        <motion.ul
+                                            className="ge-industry__panel"
+                                            role="listbox"
+                                            aria-label="Industries"
+                                            initial={{ opacity: 0, y: 8 }}
+                                            animate={{ opacity: 1, y: 0, transition: { duration: 0.2, ease: EASE } }}
+                                            exit={{ opacity: 0, y: 8, transition: { duration: 0.15 } }}
+                                        >
+                                            {INDUSTRIES.map(opt => (
+                                                <li key={opt.key}>
+                                                    <button
+                                                        type="button"
+                                                        className={`ge-industry__item${opt.key === industry.key ? ' ge-industry__item--active' : ''}`}
+                                                        onClick={() => select(opt)}
+                                                        role="option"
+                                                        aria-selected={opt.key === industry.key}
+                                                    >
+                                                        <span className="ge-industry__item-dot" aria-hidden="true" />
+                                                        {opt.label}
+                                                    </button>
+                                                </li>
+                                            ))}
+                                        </motion.ul>
+                                    ) : null}
+                                </AnimatePresence>
+                            </motion.div>
                         </div>
 
                         <div className="ge-hero__divider" aria-hidden="true" />
 
-                        <div className="ge-hero__right">
-                            <HeroDashboard industry={industry} />
-                        </div>
+                        <motion.div className="ge-hero__right" variants={fadeInUp}>
+                            <AnimatePresence mode="wait">
+                                <HeroDashboard key={industry.key} industry={industry} />
+                            </AnimatePresence>
+                        </motion.div>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </section>
     );
 }
 
 function HeroDashboard({ industry }) {
-    // Deterministic bar heights per industry key so switching feels different.
     const bars = pseudoBars(industry.key, 24);
     return (
-        <div className="ge-hero__dashboard" key={industry.key}>
+        <motion.div
+            className="ge-hero__dashboard"
+            initial={swapOut.initial}
+            animate={swapOut.animate}
+            exit={swapOut.exit}
+        >
             <div className="ge-hero__dashboard-head">
                 <span className="ge-hero__dashboard-head-title">
                     <span className="ge-hero__ticker-dot" aria-hidden="true" />
@@ -243,25 +296,45 @@ function HeroDashboard({ industry }) {
                 <strong style={{ color: 'var(--accent)' }}>{industry.monitor.focusValue}</strong>
             </div>
 
-            <div className="ge-hero__dash-chart" aria-hidden="true">
+            <motion.div
+                className="ge-hero__dash-chart"
+                aria-hidden="true"
+                initial="hidden"
+                animate="show"
+                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.018 } } }}
+            >
                 {bars.map((b, i) => (
-                    <span
+                    <motion.span
                         key={i}
                         className={`ge-hero__dash-bar${b.hot ? ' ge-hero__dash-bar--hot' : ''}`}
                         style={{ height: `${b.h}%` }}
+                        custom={i}
+                        variants={barItem}
                     />
                 ))}
-            </div>
+            </motion.div>
 
-            <div className="ge-hero__dash-metrics">
+            <motion.div
+                className="ge-hero__dash-metrics"
+                initial="hidden"
+                animate="show"
+                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.15 } } }}
+            >
                 {industry.metrics.map(([label, value]) => (
-                    <div className="ge-hero__dash-row" key={label}>
+                    <motion.div
+                        className="ge-hero__dash-row"
+                        key={label}
+                        variants={{
+                            hidden: { opacity: 0, x: 8 },
+                            show: { opacity: 1, x: 0, transition: { duration: 0.35, ease: EASE } },
+                        }}
+                    >
                         <span className="ge-hero__dash-label">{label}</span>
                         <span className="ge-hero__dash-value">{value}</span>
-                    </div>
+                    </motion.div>
                 ))}
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 
