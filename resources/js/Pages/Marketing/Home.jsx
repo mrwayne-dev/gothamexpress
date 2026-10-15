@@ -1,7 +1,8 @@
+import { useEffect, useRef, useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import {
-    ArrowRight, ArrowUpRight, CaretDown, Clock, Gauge, Globe, Package,
-    ShieldCheck, Truck, Users,
+    ArrowRight, ArrowUpRight, CaretDown, Clock, Gauge, Package,
+    ShieldCheck, Users,
 } from '@phosphor-icons/react';
 import { PublicLayout } from '@/Layouts/PublicLayout';
 import { WorldMapMini } from '@/Components/Data/WorldMapMini';
@@ -24,7 +25,136 @@ export default function Home() {
 }
 
 /* ---------------- Section 1: Hero (herosection.webp) ---------------- */
+const INDUSTRIES = [
+    {
+        key: 'consignment',
+        label: 'Consignment & crypto settlement',
+        headline: 'Run mission-critical consignments with freight that lands and payments that settle.',
+        monitor: { title: 'Live Settlement Monitor', badgeLive: 'Live', focus: 'Open consignments awaiting payment:', focusValue: '14' },
+        metrics: [
+            ['Pending invoices', '24 — $186K'],
+            ['Confirmed today', '48 — $412K'],
+            ['Routes in motion', '36'],
+            ['Reconciliation window', '< 60 min'],
+        ],
+    },
+    {
+        key: 'pharma',
+        label: 'Pharmaceutical & cold-chain',
+        headline: 'Move temperature-sensitive pharmaceutical consignments with chain-of-custody certainty.',
+        monitor: { title: 'Cold-chain Integrity Monitor', badgeLive: 'Live', focus: 'Units outside tolerance band:', focusValue: '3' },
+        metrics: [
+            ['Shipments in transit', '142'],
+            ['Avg hold temperature', '2.6 °C'],
+            ['Breach alerts (24h)', '0'],
+            ['Carriers active', '18'],
+        ],
+    },
+    {
+        key: 'luxury',
+        label: 'Luxury goods & jewellery',
+        headline: 'Move luxury goods and jewellery with signature, insurance and provenance locked in.',
+        monitor: { title: 'High-value Transit Monitor', badgeLive: 'Live', focus: 'Insured declared value in motion:', focusValue: '$8.2M' },
+        metrics: [
+            ['Signed-for parcels', '96'],
+            ['Insurer approvals pending', '4'],
+            ['White-glove couriers', '12'],
+            ['Avg transit time', '38 h'],
+        ],
+    },
+    {
+        key: 'fine-art',
+        label: 'Fine art & collectibles',
+        headline: 'Ship fine art and collectibles with climate-controlled handling and insured transit.',
+        monitor: { title: 'Gallery-to-door Monitor', badgeLive: 'Live', focus: 'Crates logged this week:', focusValue: '47' },
+        metrics: [
+            ['Humidity-controlled lots', '31'],
+            ['Appraisers on call', '9'],
+            ['Customs clearances pending', '2'],
+            ['Average handling time', '26 h'],
+        ],
+    },
+    {
+        key: 'industrial',
+        label: 'Industrial equipment & oversized',
+        headline: 'Deliver industrial equipment and oversized freight across every continent.',
+        monitor: { title: 'Heavy-haul Monitor', badgeLive: 'Live', focus: 'Oversize permits in flight:', focusValue: '11' },
+        metrics: [
+            ['Flatbeds in motion', '58'],
+            ['Multi-modal routes', '27'],
+            ['Avg load weight', '18.4 t'],
+            ['Delivery windows met', '98.6 %'],
+        ],
+    },
+    {
+        key: 'automotive',
+        label: 'Automotive parts & assemblies',
+        headline: 'Keep automotive supply chains moving — parts, assemblies, finished vehicles.',
+        monitor: { title: 'OEM Supply Monitor', badgeLive: 'Live', focus: 'Just-in-time deliveries today:', focusValue: '312' },
+        metrics: [
+            ['Line-side arrivals', '184'],
+            ['Idle risk alerts', '2'],
+            ['Carriers synced', '42'],
+            ['Avg kerb-to-dock', '42 min'],
+        ],
+    },
+    {
+        key: 'ecommerce',
+        label: 'E-commerce & recipient-paid',
+        headline: 'Fulfil e-commerce consignments with crypto settlement and recipient-paid delivery.',
+        monitor: { title: 'Order Flow Monitor', badgeLive: 'Live', focus: 'Orders awaiting payment confirmation:', focusValue: '38' },
+        metrics: [
+            ['Parcels dispatched today', '1,284'],
+            ['Avg checkout time', '27 s'],
+            ['Return rate (30d)', '2.1 %'],
+            ['Payout settlements', '96'],
+        ],
+    },
+    {
+        key: 'perishables',
+        label: 'Perishables & agricultural exports',
+        headline: 'Export perishables and agricultural goods under live-tracked cold-chain custody.',
+        monitor: { title: 'Perishables Monitor', badgeLive: 'Live', focus: 'Cold-chain shipments en route:', focusValue: '72' },
+        metrics: [
+            ['Tonnage in motion', '428 t'],
+            ['Port holds cleared', '9'],
+            ['Spoilage alerts', '0'],
+            ['Avg door-to-door', '71 h'],
+        ],
+    },
+    {
+        key: 'documents',
+        label: 'Legal & sensitive documents',
+        headline: 'Deliver legal and sensitive documents with signed custody and verified recipients.',
+        monitor: { title: 'Chain-of-custody Monitor', badgeLive: 'Live', focus: 'Signatures awaiting capture:', focusValue: '18' },
+        metrics: [
+            ['Pouches in motion', '64'],
+            ['Verified handoffs', '247'],
+            ['Avg delivery time', '19 h'],
+            ['Jurisdictions served', '42'],
+        ],
+    },
+];
+
 function Hero() {
+    const [industry, setIndustry] = useState(INDUSTRIES[0]);
+    const [open, setOpen] = useState(false);
+    const panelRef = useRef(null);
+
+    useEffect(() => {
+        if (!open) return;
+        const onDoc = (e) => { if (panelRef.current && !panelRef.current.contains(e.target)) setOpen(false); };
+        const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+        document.addEventListener('mousedown', onDoc);
+        document.addEventListener('keydown', onKey);
+        return () => {
+            document.removeEventListener('mousedown', onDoc);
+            document.removeEventListener('keydown', onKey);
+        };
+    }, [open]);
+
+    const select = (next) => { setIndustry(next); setOpen(false); };
+
     return (
         <section className="ge-hero">
             <div className="container">
@@ -33,65 +163,121 @@ function Hero() {
                     <span className="ge-hero__corner-bl" aria-hidden="true" />
 
                     <div className="ge-hero__grid">
-                        {/* Left: headline + CTA + industry pill */}
-                        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                            <h1 className="ge-hero__title">
-                                Run mission-critical consignment and logistics with freight that lands.
+                        <div className="ge-hero__left">
+                            <h1 className="ge-hero__title" key={industry.key}>
+                                {industry.headline}
                             </h1>
 
                             <div className="ge-hero__actions">
                                 <Link href="/register" className="ge-btn ge-btn--secondary ge-btn--lg">
                                     Request a demo
                                 </Link>
+                                <Link href="/services" className="ge-btn ge-btn--outline ge-btn--lg">
+                                    Explore the platform
+                                </Link>
                             </div>
 
-                            <div className="ge-hero__spec">
-                                <span className="ge-hero__spec-label">Industry</span>
-                                <button type="button" className="ge-hero__spec-pill">
-                                    Consignment &amp; crypto settlement
-                                    <CaretDown weight="bold" size={12} />
+                            <div className="ge-industry" data-open={open} ref={panelRef}>
+                                <span className="ge-industry__label">Industry</span>
+                                <button
+                                    type="button"
+                                    className="ge-industry__trigger"
+                                    onClick={() => setOpen(o => !o)}
+                                    aria-haspopup="listbox"
+                                    aria-expanded={open}
+                                >
+                                    <span className="ge-industry__trigger-label">{industry.label}</span>
+                                    <span className="ge-industry__caret">
+                                        <CaretDown weight="bold" size={14} />
+                                    </span>
                                 </button>
+                                {open ? (
+                                    <ul className="ge-industry__panel" role="listbox" aria-label="Industries">
+                                        {INDUSTRIES.map(opt => (
+                                            <li key={opt.key}>
+                                                <button
+                                                    type="button"
+                                                    className={`ge-industry__item${opt.key === industry.key ? ' ge-industry__item--active' : ''}`}
+                                                    onClick={() => select(opt)}
+                                                    role="option"
+                                                    aria-selected={opt.key === industry.key}
+                                                >
+                                                    <span className="ge-industry__item-dot" aria-hidden="true" />
+                                                    {opt.label}
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : null}
                             </div>
                         </div>
 
                         <div className="ge-hero__divider" aria-hidden="true" />
 
-                        {/* Right: dark ticker card above the jet artwork */}
                         <div className="ge-hero__right">
-                            <div className="ge-hero__ticker">
-                                <div className="ge-hero__ticker-head">
-                                    <span className="ge-hero__ticker-dot" />
-                                    Critical Supply Chain Monitoring
-                                </div>
-                                <button type="button" className="ge-hero__ticker-btn">Review</button>
-                            </div>
-
-                            <div className="ge-hero__ticker-subtle">
-                                <span className="ge-hero__ticker-live">Live</span>
-                                <span>Upstream supplier risks identified:</span>
-                                <strong style={{ color: 'var(--accent)' }}>14</strong>
-                            </div>
-
-                            <div className="ge-hero__metrics">
-                                <span className="ge-hero__metric-label">Sources:</span>
-                                <span className="ge-hero__metric-value">180 Supplier Emails</span>
-                                <span className="ge-hero__metric-label">Tier 2/3 Suppliers:</span>
-                                <span className="ge-hero__metric-value">240</span>
-                                <span className="ge-hero__metric-label">Programs Impacted:</span>
-                                <span className="ge-hero__metric-value">4</span>
-                                <span className="ge-hero__metric-label">Delay Exposure:</span>
-                                <span className="ge-hero__metric-value">6 Weeks</span>
-                            </div>
-
-                            <div className="ge-hero__visual">
-                                <img src="/images/refs/hero.webp" alt="Hero visual" />
-                            </div>
+                            <HeroDashboard industry={industry} />
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     );
+}
+
+function HeroDashboard({ industry }) {
+    // Deterministic bar heights per industry key so switching feels different.
+    const bars = pseudoBars(industry.key, 24);
+    return (
+        <div className="ge-hero__dashboard" key={industry.key}>
+            <div className="ge-hero__dashboard-head">
+                <span className="ge-hero__dashboard-head-title">
+                    <span className="ge-hero__ticker-dot" aria-hidden="true" />
+                    {industry.monitor.title}
+                </span>
+                <button type="button" className="ge-hero__ticker-btn">Review</button>
+            </div>
+
+            <div className="ge-hero__live-row">
+                <span className="ge-hero__live-badge">{industry.monitor.badgeLive}</span>
+                <span>{industry.monitor.focus}</span>
+                <strong style={{ color: 'var(--accent)' }}>{industry.monitor.focusValue}</strong>
+            </div>
+
+            <div className="ge-hero__dash-chart" aria-hidden="true">
+                {bars.map((b, i) => (
+                    <span
+                        key={i}
+                        className={`ge-hero__dash-bar${b.hot ? ' ge-hero__dash-bar--hot' : ''}`}
+                        style={{ height: `${b.h}%` }}
+                    />
+                ))}
+            </div>
+
+            <div className="ge-hero__dash-metrics">
+                {industry.metrics.map(([label, value]) => (
+                    <div className="ge-hero__dash-row" key={label}>
+                        <span className="ge-hero__dash-label">{label}</span>
+                        <span className="ge-hero__dash-value">{value}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+/* Deterministic pseudo-random bar heights seeded by the industry key.
+   Keeps the chart visually different per industry without introducing
+   actual randomness (would re-render differently each tick). */
+function pseudoBars(seed, count) {
+    let h = 0;
+    for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+    const out = [];
+    for (let i = 0; i < count; i++) {
+        h = (h * 1664525 + 1013904223) >>> 0;
+        const pct = 25 + ((h >>> 8) % 70);
+        out.push({ h: pct, hot: (h & 0b111) === 0 });
+    }
+    return out;
 }
 
 /* ---------- Section 2: Feature main (featuremain.webp) ----------- */
