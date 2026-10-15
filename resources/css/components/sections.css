@@ -3,15 +3,17 @@
    One file per layout, kept together for review.
    ============================================================ */
 
-/* --- 1. Hero (herosection.webp) — 95vh with bolder frame ----------- */
+/* --- 1. Hero — dark surface, 95vh, 3-panel right column ----------- */
 .ge-hero {
     position: relative;
     padding: var(--space-lg) 0;
-    background: var(--surface);
+    background: var(--color-ink);
+    color: var(--color-cream);
     min-height: calc(95vh - 65px);
     min-height: calc(95dvh - 65px);
     display: flex;
     align-items: stretch;
+    overflow: hidden;
 }
 .ge-hero .container {
     display: flex;
@@ -20,89 +22,98 @@
 }
 .ge-hero__frame {
     position: relative;
-    padding: var(--space-xl);
-    border: 2px solid var(--text);
     flex: 1;
     display: flex;
     flex-direction: column;
+    padding: 0;
 }
 .ge-hero__frame::before,
-.ge-hero__frame::after {
+.ge-hero__frame::after,
+.ge-hero__corner-tr,
+.ge-hero__corner-bl {
     content: '';
     position: absolute;
     width: 18px;
     height: 18px;
-    border: 2px solid var(--text);
-    background: var(--surface);
+    border: 2px solid var(--color-cream);
+    pointer-events: none;
+    z-index: 2;
 }
 .ge-hero__frame::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
 .ge-hero__frame::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
-.ge-hero__corner-tr {
-    position: absolute;
-    top: -2px; right: -2px;
-    width: 18px; height: 18px;
-    border: 2px solid var(--text);
-    border-left: 0; border-bottom: 0;
-    background: var(--surface);
-}
-.ge-hero__corner-bl {
-    position: absolute;
-    bottom: -2px; left: -2px;
-    width: 18px; height: 18px;
-    border: 2px solid var(--text);
-    border-right: 0; border-top: 0;
-    background: var(--surface);
-}
+.ge-hero__corner-tr { top: -2px; right: -2px; border-left: 0; border-bottom: 0; }
+.ge-hero__corner-bl { bottom: -2px; left: -2px; border-right: 0; border-top: 0; }
 
 .ge-hero__grid {
     display: grid;
-    grid-template-columns: 1.3fr 1px 1fr;
-    gap: var(--space-2xl);
-    align-items: stretch;
+    grid-template-columns: 1.1fr 1fr;
+    gap: var(--space-lg);
     flex: 1;
     min-height: 0;
-}
-.ge-hero__divider {
-    align-self: stretch;
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            var(--text) 0 1px,
-            transparent 1px 12px
-        );
-    width: 2px;
+    padding: var(--space-xl);
+    border: 2px solid var(--color-cream);
 }
 .ge-hero__left {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: var(--space-xl);
-    padding-right: var(--space-base);
+    justify-content: flex-end;
+    gap: var(--space-lg);
+    padding: var(--space-lg) var(--space-base) var(--space-xl) 0;
+    min-width: 0;
 }
-
-/* Reserve vertical space for the dynamic headline so swapping industries
-   doesn't shift the layout below it (the actions + dropdown). */
 .ge-hero__title-wrap {
-    min-height: 240px;
+    min-height: 260px;
     display: flex;
     align-items: flex-end;
-    margin-top: var(--space-base);
 }
 .ge-hero__title {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 4.4vw, 4.75rem);
+    font-size: clamp(2rem, 4.2vw, 4.5rem);
     font-weight: var(--font-weight-bold);
     letter-spacing: var(--letter-spacing-tight);
     line-height: 1.04;
-    color: var(--text);
-    max-width: 15ch;
+    color: var(--color-cream);
+    max-width: 16ch;
     margin: 0;
-    /* word-stagger needs each word to be inline-block for transforms */
 }
 .ge-hero__title-word {
     display: inline-block;
     will-change: transform, opacity;
 }
+.ge-hero__lede {
+    color: var(--color-ink-300);
+    font-size: var(--font-size-base);
+    max-width: 48ch;
+    line-height: var(--line-height-relaxed);
+}
+.ge-hero__actions {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+    margin-top: var(--space-sm);
+}
+.ge-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 14px 22px;
+    background: var(--color-cream);
+    color: var(--color-ink);
+    border: 1px solid var(--color-cream);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.01em;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+}
+.ge-hero__cta:hover { background: var(--color-white); color: var(--color-ink); }
+.ge-hero__cta--ghost {
+    background: transparent;
+    color: var(--color-cream);
+    border-color: var(--color-ink-500);
+}
+.ge-hero__cta--ghost:hover { background: var(--color-ink-800); color: var(--color-cream); border-color: var(--color-ink-300); }
+
 @media (max-width: 992px) {
     .ge-hero__title-wrap { min-height: 180px; }
 }
@@ -116,255 +127,252 @@
     flex-wrap: wrap;
 }
 
-/* Industry picker — a real dropdown with the active label + caret */
-.ge-industry {
+/* ========= RIGHT COLUMN: 3 stacked panels ========================== */
+.ge-hero__right {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: var(--space-base);
+    min-height: 0;
+}
+
+/* --- Panel 1: timer bar ------------------------------------------- */
+.ge-hero__panel-timer {
     position: relative;
+    padding: var(--space-base) var(--space-lg);
+    border: 1px solid var(--color-ink-700);
+    border-radius: var(--radius-xs);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+.ge-hero__panel-timer::before,
+.ge-hero__panel-timer::after,
+.ge-hero__panel-timer > .ge-hero__corner-tr,
+.ge-hero__panel-timer > .ge-hero__corner-bl {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--color-cream);
+    pointer-events: none;
+}
+.ge-hero__panel-timer::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+.ge-hero__panel-timer::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+.ge-hero__timer-label {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--space-base);
-    margin-top: auto;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    color: var(--color-ink-300);
+    letter-spacing: var(--letter-spacing-wide);
 }
-.ge-industry__label {
+.ge-hero__timer-label strong { color: var(--color-cream); font-weight: var(--font-weight-medium); }
+
+.ge-hero__timer-bar {
+    position: relative;
+    height: 6px;
+    background: var(--color-ink-800);
+    border-radius: 999px;
+    overflow: hidden;
+}
+.ge-hero__timer-fill {
+    position: absolute;
+    inset: 0;
+    width: 0;
+    background: var(--accent);
+    border-radius: 999px;
+    transform-origin: left;
+}
+
+/* --- Panel 2: visual (industry illustration) --------------------- */
+.ge-hero__panel-visual {
+    position: relative;
+    padding: var(--space-lg);
+    border: 2px solid var(--color-cream);
+    border-radius: var(--radius-xs);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-base);
+    min-height: 280px;
+    overflow: hidden;
+}
+.ge-hero__panel-visual::before,
+.ge-hero__panel-visual::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--color-cream);
+    pointer-events: none;
+    z-index: 2;
+    background: var(--color-ink);
+}
+.ge-hero__panel-visual::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
+.ge-hero__panel-visual::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
+
+.ge-hero__industry-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-family: var(--font-mono);
     font-size: var(--font-size-xs);
     text-transform: uppercase;
     letter-spacing: var(--letter-spacing-wider);
-    color: var(--text-muted);
-    font-weight: var(--font-weight-medium);
-}
-.ge-industry__trigger {
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-lg);
-    min-width: 320px;
-    padding: 12px 18px;
-    border: 2px solid var(--text);
-    border-radius: var(--radius-sm);
-    background: var(--surface);
-    color: var(--text);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    cursor: pointer;
-    text-align: left;
-    transition: background var(--transition-fast);
-}
-.ge-industry__trigger:hover { background: var(--surface-raised); }
-.ge-industry__trigger-label {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-sm);
-    flex: 1;
-}
-.ge-industry__trigger-label::before {
-    content: '';
-    display: inline-block;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-}
-.ge-industry__caret {
-    display: inline-flex;
-    transition: transform var(--transition-fast);
-}
-.ge-industry[data-open='true'] .ge-industry__caret { transform: rotate(180deg); }
-
-.ge-industry__panel {
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 0;
-    min-width: 360px;
-    max-width: 440px;
-    background: var(--surface);
-    border: 2px solid var(--text);
-    border-radius: var(--radius-sm);
-    padding: var(--space-xs) 0;
-    z-index: var(--z-dropdown);
-    max-height: 60vh;
-    overflow-y: auto;
-}
-.ge-industry__item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    width: 100%;
-    padding: 10px 16px;
+    color: var(--color-cream);
+    padding: 0;
     background: none;
     border: 0;
-    color: var(--text);
-    font-size: var(--font-size-sm);
-    text-align: left;
     cursor: pointer;
-    transition: background var(--transition-fast);
+    position: relative;
+    z-index: 2;
 }
-.ge-industry__item:hover { background: var(--surface-raised); }
-.ge-industry__item--active {
-    background: var(--surface-raised);
-    font-weight: var(--font-weight-semibold);
-}
-.ge-industry__item-dot {
+.ge-hero__industry-tag::before {
+    content: '';
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: var(--border-strong);
-    display: inline-block;
-    flex-shrink: 0;
-}
-.ge-industry__item--active .ge-industry__item-dot { background: var(--accent); }
-
-/* Right column: full-height dark monitoring card (jet image removed) */
-.ge-hero__right {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    height: 100%;
-    min-height: 0;
-}
-.ge-hero__dashboard {
-    background: var(--color-ink);
-    color: var(--color-cream);
-    border: 2px solid var(--text);
-    border-radius: var(--radius-sm);
-    padding: var(--space-xl);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-    min-height: 0;
-}
-.ge-hero__dashboard-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-base);
-    padding-bottom: var(--space-base);
-    border-bottom: 1px solid var(--color-ink-700);
-}
-.ge-hero__dashboard-head-title {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-sm);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    letter-spacing: var(--letter-spacing-tight);
-    color: var(--color-cream);
-}
-.ge-hero__ticker-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
     background: var(--accent);
-    animation: ge-pulse 1.8s ease-in-out infinite;
+    display: inline-block;
 }
-@keyframes ge-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-}
-.ge-hero__ticker-btn {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wider);
-    color: var(--color-cream);
+.ge-hero__industry-tag:hover { color: var(--color-white); }
+
+.ge-hero__industry-panel {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 280px;
+    max-width: 400px;
+    background: var(--color-ink);
     border: 1px solid var(--color-ink-500);
     border-radius: var(--radius-xs);
-    padding: 6px 12px;
-    cursor: pointer;
-    background: transparent;
-    transition: background var(--transition-fast);
-    font-weight: var(--font-weight-medium);
+    padding: var(--space-xs) 0;
+    z-index: 5;
+    max-height: 320px;
+    overflow-y: auto;
 }
-.ge-hero__ticker-btn:hover { background: var(--color-ink-700); }
-
-.ge-hero__live-row {
-    display: inline-flex;
+.ge-hero__industry-panel button {
+    display: flex;
+    width: 100%;
     align-items: center;
     gap: var(--space-sm);
-    padding: 6px 12px;
+    padding: 10px 14px;
+    background: none;
+    border: 0;
+    color: var(--color-cream);
+    text-align: left;
+    cursor: pointer;
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    transition: background var(--transition-fast);
+}
+.ge-hero__industry-panel button:hover { background: var(--color-ink-800); }
+.ge-hero__industry-panel button[aria-selected='true'] { color: var(--accent); }
+
+.ge-hero__visual-stage {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+}
+.ge-hero__visual-icon {
+    color: var(--accent);
+    filter:
+        drop-shadow(0 0 30px rgba(236, 86, 46, 0.45))
+        drop-shadow(0 0 60px rgba(236, 86, 46, 0.25));
+    position: relative;
+    z-index: 1;
+}
+.ge-hero__visual-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+.ge-hero__visual-particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--color-cream);
+    border-radius: 50%;
+    opacity: 0.6;
+    will-change: opacity, transform;
+}
+
+/* --- Panel 3: operational-intelligence stat card ------------------ */
+.ge-hero__panel-stat {
     background: var(--color-ink-800);
     border: 1px solid var(--color-ink-700);
     border-radius: var(--radius-xs);
-    font-size: var(--font-size-xs);
-    width: fit-content;
-    color: var(--color-cream);
-}
-.ge-hero__live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 3px 8px;
-    background: var(--accent);
-    color: var(--color-white);
-    border-radius: 2px;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wider);
-    font-weight: var(--font-weight-semibold);
-}
-
-.ge-hero__dash-metrics {
+    padding: var(--space-lg);
     display: flex;
     flex-direction: column;
     gap: var(--space-sm);
-    flex: 1;
-    justify-content: flex-end;
 }
-.ge-hero__dash-row {
-    display: grid;
-    grid-template-columns: 1fr auto;
+.ge-hero__stat-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: var(--space-base);
-    padding: 10px 0;
-    border-bottom: 1px solid var(--color-ink-700);
+    font-family: var(--font-mono);
     font-size: var(--font-size-xs);
-}
-.ge-hero__dash-row:last-child { border-bottom: 0; }
-.ge-hero__dash-label {
     text-transform: uppercase;
     letter-spacing: var(--letter-spacing-wider);
     color: var(--color-ink-300);
-    font-weight: var(--font-weight-medium);
 }
-.ge-hero__dash-value {
+.ge-hero__stat-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border: 1px solid var(--accent);
     color: var(--accent);
+    border-radius: var(--radius-xs);
+    font-size: 10px;
     font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-wider);
     text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wide);
+}
+.ge-hero__stat-live::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+.ge-hero__stat-value {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 4vw, 3.75rem);
+    font-weight: var(--font-weight-regular);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--color-cream);
+    line-height: 1;
     font-variant-numeric: tabular-nums;
 }
-
-.ge-hero__dash-chart {
-    display: grid;
-    grid-template-columns: repeat(24, 1fr);
-    gap: 3px;
-    align-items: flex-end;
-    height: 56px;
-    margin-top: var(--space-base);
-}
-.ge-hero__dash-bar {
-    background: var(--color-cream);
-    opacity: 0.5;
-    border-radius: 1px;
-    min-height: 4px;
-    transform-origin: bottom;
-    will-change: transform, opacity;
-}
-.ge-hero__dash-bar--hot {
-    background: var(--accent);
-    opacity: 1;
+.ge-hero__stat-caption {
+    color: var(--color-ink-300);
+    font-size: var(--font-size-sm);
 }
 
-/* Reserve vertical space on the right pane so the industry switch's exit
-   animation doesn't let the dashboard collapse to zero height. */
-.ge-hero__right { min-height: 440px; }
-@media (max-width: 992px) { .ge-hero__right { min-height: 420px; } }
-
+/* ========= RESPONSIVE ============================================= */
 @media (max-width: 992px) {
-    .ge-hero { min-height: auto; padding-block: var(--space-2xl); }
-    .ge-hero__grid { grid-template-columns: 1fr; }
-    .ge-hero__divider { display: none; }
-    .ge-industry__trigger { min-width: 100%; }
-    .ge-industry__panel { max-width: 100%; }
+    .ge-hero { min-height: auto; padding-block: var(--space-lg); }
+    .ge-hero__grid {
+        grid-template-columns: 1fr;
+        padding: var(--space-lg);
+    }
+    .ge-hero__left { padding: var(--space-sm) 0 var(--space-lg) 0; }
+    .ge-hero__right { gap: var(--space-base); }
+    .ge-hero__panel-visual { min-height: 240px; }
 }
 @media (max-width: 576px) {
-    .ge-hero__frame { padding: var(--space-base); }
-    .ge-hero__dashboard { padding: var(--space-base); }
+    .ge-hero__grid { padding: var(--space-base); }
+    .ge-hero__panel-visual { padding: var(--space-base); }
+    .ge-hero__panel-timer { padding: var(--space-sm) var(--space-base); }
+    .ge-hero__panel-stat { padding: var(--space-base); }
 }
 
 /* --- 2. Feature-main (featuremain.webp) — grid-divider block ------- */
