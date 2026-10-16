@@ -2,29 +2,32 @@ import { useState } from 'react';
 import { Link } from '@inertiajs/react';
 import { List, X } from '@phosphor-icons/react';
 
-export function PublicLayout({ children }) {
+export function PublicLayout({ children, navSolid = false }) {
     const [open, setOpen] = useState(false);
     const year = new Date().getFullYear();
 
     return (
         <div className="ge-public">
-            <nav className="ge-public-nav" aria-label="Primary">
+            <nav className={`ge-public-nav${navSolid ? ' ge-public-nav--solid' : ''}`} aria-label="Primary">
                 <div className="ge-public-nav__inner">
                     <Link href="/" className="ge-public-nav__brand">
-                        <span className="ge-public-nav__mark" aria-hidden="true" />
-                        <span>Gotham Express</span>
+                        <span className="ge-public-nav__mark" aria-hidden="true">
+                            <span /><span /><span />
+                        </span>
+                        <span>gotham express</span>
                     </Link>
 
                     <ul className={`ge-public-nav__links${open ? ' ge-public-nav__links--open' : ''}`}>
-                        <li><Link href="/services" onClick={() => setOpen(false)}>Services</Link></li>
-                        <li><Link href="/about" onClick={() => setOpen(false)}>About</Link></li>
+                        <li><Link href="/services" onClick={() => setOpen(false)}>Solutions</Link></li>
+                        <li><Link href="/about" onClick={() => setOpen(false)}>Industries</Link></li>
                         <li><Link href="/policy" onClick={() => setOpen(false)}>Security</Link></li>
                         <li><Link href="/contact" onClick={() => setOpen(false)}>Contact</Link></li>
+                        <li><Link href="/about" onClick={() => setOpen(false)}>About</Link></li>
                     </ul>
 
                     <div className="ge-public-nav__cta">
-                        <Link href="/login" className="ge-nav-btn" style={{ display: 'none' }}>Log in</Link>
-                        <Link href="/register" className="ge-nav-btn">Request a demo</Link>
+                        <Link href="/login" className="ge-public-nav__login">Login</Link>
+                        <Link href="/tracking" className="ge-nav-btn">Track a package</Link>
                         <button
                             type="button"
                             className="ge-public-nav__toggle"
@@ -45,6 +48,7 @@ export function PublicLayout({ children }) {
                         <h5>Platform</h5>
                         <Link href="/">Overview</Link>
                         <Link href="/services">Services</Link>
+                        <Link href="/tracking">Track a package</Link>
                         <Link href="/dev/components">Component kit</Link>
                     </div>
                     <div className="ge-public-footer__col">

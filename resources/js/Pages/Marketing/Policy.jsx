@@ -17,7 +17,7 @@ export default function Policy() {
     return (
         <>
             <Head title="Privacy policy" />
-            <PublicLayout>
+            <PublicLayout navSolid>
                 <section className="ge-page-hero">
                     <div className="container">
                         <span className="ge-page-hero__eyebrow">Legal</span>

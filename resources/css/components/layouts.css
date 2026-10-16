@@ -39,14 +39,19 @@
 }
 .ge-public__main { flex: 1; }
 
-/* Nav bar — black with text links on the left, outlined CTA on the right.
-   Matches navbar.webp. */
+/* Nav bar — transparent, floats over the hero image. Vooma-style. */
 .ge-public-nav {
-    position: sticky;
+    position: absolute;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: var(--z-sticky);
-    background: var(--color-ink);
+    background: transparent;
     color: var(--color-cream);
+}
+.ge-public-nav--solid {
+    position: sticky;
+    background: var(--color-ink);
     border-bottom: 1px solid var(--color-ink-700);
 }
 .ge-public-nav__inner {
@@ -54,8 +59,8 @@
     grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: var(--space-xl);
-    padding: var(--space-base) var(--space-xl);
-    max-width: var(--container-2xl);
+    padding: var(--space-lg) var(--space-xl);
+    max-width: var(--container-max);
     margin: 0 auto;
 }
 .ge-public-nav__brand {
@@ -66,53 +71,71 @@
     font-weight: var(--font-weight-semibold);
     font-size: var(--font-size-base);
     letter-spacing: var(--letter-spacing-tight);
+    text-transform: lowercase;
 }
 .ge-public-nav__mark {
-    width: 22px;
-    height: 22px;
-    border: 1px solid var(--color-cream);
-    border-radius: 50%;
     display: inline-grid;
     place-content: center;
-    position: relative;
+    width: 32px;
+    height: 20px;
+    gap: 3px;
+    grid-template-rows: 2px 2px 2px;
 }
-.ge-public-nav__mark::after {
-    content: '';
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
+.ge-public-nav__mark span {
+    display: block;
+    height: 3px;
     background: var(--accent);
+    border-radius: 1px;
 }
+.ge-public-nav__mark span:nth-child(1) { width: 16px; justify-self: start; }
+.ge-public-nav__mark span:nth-child(2) { width: 22px; justify-self: start; }
+.ge-public-nav__mark span:nth-child(3) { width: 10px; justify-self: start; }
 .ge-public-nav__links {
     display: flex;
     justify-content: center;
-    gap: var(--space-xl);
-    font-size: var(--font-size-sm);
+    gap: var(--space-2xl);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
 }
 .ge-public-nav__links a {
     color: var(--color-cream);
-    opacity: 0.82;
+    opacity: 0.85;
     padding: var(--space-xs) 0;
-    letter-spacing: 0.01em;
+    font-weight: var(--font-weight-medium);
+    transition: opacity var(--transition-fast);
 }
 .ge-public-nav__links a:hover { opacity: 1; color: var(--color-cream); }
 .ge-public-nav__cta {
     display: inline-flex;
-    gap: var(--space-sm);
+    align-items: center;
+    gap: var(--space-base);
 }
+.ge-public-nav__login {
+    color: var(--color-cream);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    font-weight: var(--font-weight-medium);
+    opacity: 0.85;
+    padding: var(--space-xs) 0;
+}
+.ge-public-nav__login:hover { opacity: 1; color: var(--color-cream); }
 
 .ge-public-nav__toggle {
     display: none;
     background: none;
-    border: 1px solid var(--color-ink-700);
+    border: 1px solid rgba(245, 239, 227, 0.4);
     color: var(--color-cream);
     width: 36px;
     height: 36px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-xs);
 }
 
 @media (max-width: 992px) {
-    .ge-public-nav__inner { grid-template-columns: auto 1fr auto; gap: var(--space-base); padding: var(--space-sm) var(--space-base); }
+    .ge-public-nav__inner { grid-template-columns: auto 1fr auto; gap: var(--space-base); padding: var(--space-base); }
     .ge-public-nav__links { display: none; }
     .ge-public-nav__links--open {
         display: flex;
@@ -123,31 +146,32 @@
         flex-direction: column;
         background: var(--color-ink);
         padding: var(--space-base) var(--space-xl);
-        border-bottom: 1px solid var(--color-ink-700);
         gap: var(--space-sm);
     }
+    .ge-public-nav__login { display: none; }
     .ge-public-nav__toggle { display: inline-grid; place-content: center; }
 }
 
-/* Dark button variant that lives in the nav */
+/* Outlined "track a package" / "book a demo" CTA — reads over any image */
 .ge-nav-btn {
     display: inline-flex;
     align-items: center;
     gap: var(--space-xs);
-    padding: 10px 18px;
-    font-size: var(--font-size-sm);
+    padding: 12px 22px;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
     color: var(--color-cream);
     background: transparent;
-    border: 1px solid var(--color-ink-700);
-    border-radius: var(--radius-sm);
-    transition: background var(--transition-fast), border-color var(--transition-fast);
-    letter-spacing: 0.01em;
+    border: 1px solid var(--color-cream);
+    border-radius: var(--radius-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    transition: background var(--transition-fast), color var(--transition-fast);
 }
 .ge-nav-btn:hover {
-    background: var(--color-ink-800);
-    border-color: var(--color-ink-500);
-    color: var(--color-cream);
+    background: var(--color-cream);
+    color: var(--color-ink);
 }
 .ge-nav-btn--primary {
     background: var(--accent);

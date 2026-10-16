@@ -54,10 +54,15 @@
     --focus-ring: rgba(236, 86, 46, 0.35);
     --overlay: rgba(23, 17, 10, 0.65);
 
-    /* --- Typography (Inter — open-source grotesque used in place of Neue Haas Grotesk) --- */
-    --font-sans: 'Inter', 'Neue Haas Grotesk', 'Helvetica Neue', system-ui, -apple-system, Segoe UI, sans-serif;
-    --font-display: 'Inter', 'Neue Haas Grotesk', 'Helvetica Neue', system-ui, -apple-system, Segoe UI, sans-serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    /* --- Typography ---------------------------------------------------
+       Primary: Neue Haas Grotesk (if licensed/loaded locally).
+       Fallback: Hanken Grotesk — Google Fonts open-source clone of the
+       Haas/Helvetica grotesk lineage. The named fallbacks let you drop
+       a Typekit Neue Haas Grotesk Pro link in without touching tokens.
+    -------------------------------------------------------------------- */
+    --font-sans: 'Neue Haas Grotesk Display Pro', 'Neue Haas Grotesk Pro', 'Hanken Grotesk', 'Helvetica Neue', system-ui, -apple-system, Segoe UI, sans-serif;
+    --font-display: 'Neue Haas Grotesk Display Pro', 'Neue Haas Grotesk Pro', 'Hanken Grotesk', 'Helvetica Neue', system-ui, -apple-system, Segoe UI, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
     --font-size-xs: 0.75rem;      /* 12 */
     --font-size-sm: 0.875rem;     /* 14 */

@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, animate, motion, useMotionValue } from 'motion/react';
 import {
-    ArrowRight, ArrowUpRight, CaretDown, Clock, Gauge, Package,
+    ArrowRight, ArrowUpRight, Clock, Gauge, Package,
     ShieldCheck, Users,
 } from '@phosphor-icons/react';
 import { PublicLayout } from '@/Layouts/PublicLayout';
 import { WorldMapMini } from '@/Components/Data/WorldMapMini';
 import { Accordion } from '@/Components/Data/Accordion';
 import {
-    barItem, EASE, fadeInUp, hoverLift, splitWords, staggerParent, swapOut, wordItem, wordStagger,
+    EASE, fadeInUp, splitWords, staggerParent, wordItem, wordStagger,
 } from '@/Lib/motion';
 
 export default function Home() {
@@ -28,329 +28,187 @@ export default function Home() {
     );
 }
 
-/* ---------------- Section 1: Hero (herosection.webp) ---------------- */
+/* ---------------- Section 1: Hero — image-carousel edition --------- */
+const CAROUSEL_SECONDS = 7;
 const INDUSTRIES = [
     {
-        key: 'consignment',
-        label: 'Consignment & crypto settlement',
-        headline: 'Run mission-critical consignments with freight that lands and payments that settle.',
-        monitor: { title: 'Live Settlement Monitor', badgeLive: 'Live', focus: 'Open consignments awaiting payment:', focusValue: '14' },
-        metrics: [
-            ['Pending invoices', '24 — $186K'],
-            ['Confirmed today', '48 — $412K'],
-            ['Routes in motion', '36'],
-            ['Reconciliation window', '< 60 min'],
-        ],
+        key: 'freight',
+        tag: 'Enterprise freight',
+        eyebrow: 'Freight & carriers',
+        headline: 'Win and move more freight.',
+        lede: 'Gotham Express gives brokers and carriers one system for consignment creation, tender response, settlement and live tracking — teams move more freight with the same headcount.',
+        image: '/images/hero/freight.webp',
+    },
+    {
+        key: 'container',
+        tag: 'Container & port ops',
+        eyebrow: 'Ocean & container',
+        headline: 'Container flows, tracked door-to-door.',
+        lede: 'Full-container-load and LCL consignments with chain-of-custody logs across every terminal hop. Reconciliation and recipient-paid settlement handled on-chain.',
+        image: '/images/hero/container.webp',
     },
     {
         key: 'pharma',
-        label: 'Pharmaceutical & cold-chain',
-        headline: 'Move temperature-sensitive pharmaceutical consignments with chain-of-custody certainty.',
-        monitor: { title: 'Cold-chain Integrity Monitor', badgeLive: 'Live', focus: 'Units outside tolerance band:', focusValue: '3' },
-        metrics: [
-            ['Shipments in transit', '142'],
-            ['Avg hold temperature', '2.6 °C'],
-            ['Breach alerts (24h)', '0'],
-            ['Carriers active', '18'],
-        ],
-    },
-    {
-        key: 'luxury',
-        label: 'Luxury goods & jewellery',
-        headline: 'Move luxury goods and jewellery with signature, insurance and provenance locked in.',
-        monitor: { title: 'High-value Transit Monitor', badgeLive: 'Live', focus: 'Insured declared value in motion:', focusValue: '$8.2M' },
-        metrics: [
-            ['Signed-for parcels', '96'],
-            ['Insurer approvals pending', '4'],
-            ['White-glove couriers', '12'],
-            ['Avg transit time', '38 h'],
-        ],
-    },
-    {
-        key: 'fine-art',
-        label: 'Fine art & collectibles',
-        headline: 'Ship fine art and collectibles with climate-controlled handling and insured transit.',
-        monitor: { title: 'Gallery-to-door Monitor', badgeLive: 'Live', focus: 'Crates logged this week:', focusValue: '47' },
-        metrics: [
-            ['Humidity-controlled lots', '31'],
-            ['Appraisers on call', '9'],
-            ['Customs clearances pending', '2'],
-            ['Average handling time', '26 h'],
-        ],
-    },
-    {
-        key: 'industrial',
-        label: 'Industrial equipment & oversized',
-        headline: 'Deliver industrial equipment and oversized freight across every continent.',
-        monitor: { title: 'Heavy-haul Monitor', badgeLive: 'Live', focus: 'Oversize permits in flight:', focusValue: '11' },
-        metrics: [
-            ['Flatbeds in motion', '58'],
-            ['Multi-modal routes', '27'],
-            ['Avg load weight', '18.4 t'],
-            ['Delivery windows met', '98.6 %'],
-        ],
-    },
-    {
-        key: 'automotive',
-        label: 'Automotive parts & assemblies',
-        headline: 'Keep automotive supply chains moving — parts, assemblies, finished vehicles.',
-        monitor: { title: 'OEM Supply Monitor', badgeLive: 'Live', focus: 'Just-in-time deliveries today:', focusValue: '312' },
-        metrics: [
-            ['Line-side arrivals', '184'],
-            ['Idle risk alerts', '2'],
-            ['Carriers synced', '42'],
-            ['Avg kerb-to-dock', '42 min'],
-        ],
+        tag: 'Pharmaceutical & cold-chain',
+        eyebrow: 'Validated temperature',
+        headline: 'Cold-chain custody, breach-alerted.',
+        lede: 'Validated-temperature consignments with per-unit custody logs, automated breach alerts and audit-ready paperwork — chain-of-custody certainty on every lane.',
+        image: '/images/hero/pharma.webp',
     },
     {
         key: 'ecommerce',
-        label: 'E-commerce & recipient-paid',
-        headline: 'Fulfil e-commerce consignments with crypto settlement and recipient-paid delivery.',
-        monitor: { title: 'Order Flow Monitor', badgeLive: 'Live', focus: 'Orders awaiting payment confirmation:', focusValue: '38' },
-        metrics: [
-            ['Parcels dispatched today', '1,284'],
-            ['Avg checkout time', '27 s'],
-            ['Return rate (30d)', '2.1 %'],
-            ['Payout settlements', '96'],
-        ],
-    },
-    {
-        key: 'perishables',
-        label: 'Perishables & agricultural exports',
-        headline: 'Export perishables and agricultural goods under live-tracked cold-chain custody.',
-        monitor: { title: 'Perishables Monitor', badgeLive: 'Live', focus: 'Cold-chain shipments en route:', focusValue: '72' },
-        metrics: [
-            ['Tonnage in motion', '428 t'],
-            ['Port holds cleared', '9'],
-            ['Spoilage alerts', '0'],
-            ['Avg door-to-door', '71 h'],
-        ],
-    },
-    {
-        key: 'documents',
-        label: 'Legal & sensitive documents',
-        headline: 'Deliver legal and sensitive documents with signed custody and verified recipients.',
-        monitor: { title: 'Chain-of-custody Monitor', badgeLive: 'Live', focus: 'Signatures awaiting capture:', focusValue: '18' },
-        metrics: [
-            ['Pouches in motion', '64'],
-            ['Verified handoffs', '247'],
-            ['Avg delivery time', '19 h'],
-            ['Jurisdictions served', '42'],
-        ],
+        tag: 'E-commerce & last-mile',
+        eyebrow: 'Recipient-paid fulfilment',
+        headline: 'Recipient-paid parcels, settled on-chain.',
+        lede: 'Crypto settlement, instant tender response and single-click reconciliation for e-commerce consignments — scales from 10 to 10,000 orders a day.',
+        image: '/images/hero/ecommerce.webp',
     },
 ];
 
 function Hero() {
-    const [industry, setIndustry] = useState(INDUSTRIES[0]);
-    const [open, setOpen] = useState(false);
-    const panelRef = useRef(null);
+    const [idx, setIdx] = useState(0);
+    const [paused, setPaused] = useState(false);
+    const industry = INDUSTRIES[idx];
 
+    // One timer at a time; advances when complete, pauses on hover.
+    const progress = useMotionValue(0);
     useEffect(() => {
-        if (!open) return;
-        const onDoc = (e) => { if (panelRef.current && !panelRef.current.contains(e.target)) setOpen(false); };
-        const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
-        document.addEventListener('mousedown', onDoc);
-        document.addEventListener('keydown', onKey);
-        return () => {
-            document.removeEventListener('mousedown', onDoc);
-            document.removeEventListener('keydown', onKey);
-        };
-    }, [open]);
+        if (paused) return;
+        progress.set(0);
+        const ctl = animate(progress, 1, {
+            duration: CAROUSEL_SECONDS,
+            ease: 'linear',
+            onComplete: () => setIdx(i => (i + 1) % INDUSTRIES.length),
+        });
+        return () => ctl.stop();
+    }, [idx, paused, progress]);
 
-    const select = (next) => { setIndustry(next); setOpen(false); };
+    const jump = (i) => setIdx(i);
 
     return (
-        <section className="ge-hero">
-            <div className="container">
-                <motion.div
-                    className="ge-hero__frame"
-                    initial="hidden"
-                    animate="show"
-                    variants={staggerParent(0.08, 0.1)}
-                >
-                    <span className="ge-hero__corner-tr" aria-hidden="true" />
-                    <span className="ge-hero__corner-bl" aria-hidden="true" />
+        <section
+            className="ge-hero"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+        >
+            {/* Image stack — one slide per industry, crossfaded via opacity */}
+            <div className="ge-hero__media" aria-hidden="true">
+                {INDUSTRIES.map((item, i) => (
+                    <motion.div
+                        key={item.key}
+                        className="ge-hero__media-slide"
+                        animate={{ opacity: i === idx ? 1 : 0 }}
+                        transition={{ duration: 0.9, ease: EASE }}
+                    >
+                        <img src={item.image} alt="" loading={i === 0 ? 'eager' : 'lazy'} />
+                    </motion.div>
+                ))}
+            </div>
+            <div className="ge-hero__overlay" aria-hidden="true" />
+            <div className="ge-hero__grid-lines" aria-hidden="true">
+                {Array.from({ length: 12 }).map((_, i) => <span key={i} />)}
+            </div>
 
-                    <div className="ge-hero__grid">
-                        <div className="ge-hero__left">
-                            {/* Headline: word-stagger reveal that re-fires on industry change */}
-                            <motion.div className="ge-hero__title-wrap" variants={fadeInUp}>
-                                <AnimatePresence mode="wait">
-                                    <motion.h1
-                                        key={industry.key}
-                                        className="ge-hero__title"
-                                        variants={wordStagger}
-                                        initial="hidden"
-                                        animate="show"
-                                        exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
-                                    >
-                                        {splitWords(industry.headline).map((word, i) => (
-                                            word.match(/^\s+$/) ? (
-                                                <span key={i}>{word}</span>
-                                            ) : (
-                                                <motion.span
-                                                    key={i}
-                                                    className="ge-hero__title-word"
-                                                    variants={wordItem}
-                                                >
-                                                    {word}
-                                                </motion.span>
-                                            )
-                                        ))}
-                                    </motion.h1>
-                                </AnimatePresence>
-                            </motion.div>
+            {/* Content anchored to the bottom */}
+            <motion.div
+                className="ge-hero__content"
+                initial="hidden"
+                animate="show"
+                variants={staggerParent(0.1, 0.3)}
+            >
+                <div>
+                    <AnimatePresence mode="wait">
+                        <motion.span
+                            key={industry.key + '-eye'}
+                            className="ge-hero__eyebrow"
+                            initial={{ opacity: 0, y: 6 }}
+                            animate={{ opacity: 0.78, y: 0, transition: { duration: 0.35, ease: EASE } }}
+                            exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                        >
+                            {industry.eyebrow}
+                        </motion.span>
+                    </AnimatePresence>
 
-                            <motion.div className="ge-hero__actions" variants={fadeInUp}>
-                                <Link href="/register" className="ge-btn ge-btn--secondary ge-btn--lg">
-                                    Request a demo
-                                </Link>
-                                <Link href="/services" className="ge-btn ge-btn--outline ge-btn--lg">
-                                    Explore the platform
-                                </Link>
-                            </motion.div>
+                    <AnimatePresence mode="wait">
+                        <motion.h1
+                            key={industry.key + '-title'}
+                            className="ge-hero__title"
+                            variants={wordStagger}
+                            initial="hidden"
+                            animate="show"
+                            exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+                        >
+                            {splitWords(industry.headline).map((word, i) => (
+                                word.match(/^\s+$/) ? (
+                                    <span key={i}>{word}</span>
+                                ) : (
+                                    <motion.span key={i} className="ge-hero__title-word" variants={wordItem}>
+                                        {word}
+                                    </motion.span>
+                                )
+                            ))}
+                        </motion.h1>
+                    </AnimatePresence>
 
-                            <motion.div
-                                className="ge-industry"
-                                data-open={open}
-                                ref={panelRef}
-                                variants={fadeInUp}
-                            >
-                                <span className="ge-industry__label">Industry</span>
-                                <button
-                                    type="button"
-                                    className="ge-industry__trigger"
-                                    onClick={() => setOpen(o => !o)}
-                                    aria-haspopup="listbox"
-                                    aria-expanded={open}
-                                >
-                                    <span className="ge-industry__trigger-label">{industry.label}</span>
-                                    <span className="ge-industry__caret">
-                                        <CaretDown weight="bold" size={14} />
-                                    </span>
-                                </button>
-                                <AnimatePresence>
-                                    {open ? (
-                                        <motion.ul
-                                            className="ge-industry__panel"
-                                            role="listbox"
-                                            aria-label="Industries"
-                                            initial={{ opacity: 0, y: 8 }}
-                                            animate={{ opacity: 1, y: 0, transition: { duration: 0.2, ease: EASE } }}
-                                            exit={{ opacity: 0, y: 8, transition: { duration: 0.15 } }}
-                                        >
-                                            {INDUSTRIES.map(opt => (
-                                                <li key={opt.key}>
-                                                    <button
-                                                        type="button"
-                                                        className={`ge-industry__item${opt.key === industry.key ? ' ge-industry__item--active' : ''}`}
-                                                        onClick={() => select(opt)}
-                                                        role="option"
-                                                        aria-selected={opt.key === industry.key}
-                                                    >
-                                                        <span className="ge-industry__item-dot" aria-hidden="true" />
-                                                        {opt.label}
-                                                    </button>
-                                                </li>
-                                            ))}
-                                        </motion.ul>
-                                    ) : null}
-                                </AnimatePresence>
-                            </motion.div>
-                        </div>
+                    <AnimatePresence mode="wait">
+                        <motion.p
+                            key={industry.key + '-lede'}
+                            className="ge-hero__lede"
+                            initial={{ opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE, delay: 0.15 } }}
+                            exit={{ opacity: 0, y: -6, transition: { duration: 0.15 } }}
+                        >
+                            {industry.lede}
+                        </motion.p>
+                    </AnimatePresence>
+                </div>
 
-                        <div className="ge-hero__divider" aria-hidden="true" />
-
-                        <motion.div className="ge-hero__right" variants={fadeInUp}>
-                            <AnimatePresence mode="wait">
-                                <HeroDashboard key={industry.key} industry={industry} />
-                            </AnimatePresence>
-                        </motion.div>
-                    </div>
+                <motion.div className="ge-hero__cta-group" variants={fadeInUp}>
+                    <Link href="/register" className="ge-hero__cta">Book a demo</Link>
+                    <Link href="/tracking" className="ge-hero__cta-arrow" aria-label="Track a package">
+                        <ArrowRight weight="bold" size={18} />
+                    </Link>
                 </motion.div>
+            </motion.div>
+
+            {/* Pager row */}
+            <div className="ge-hero__pager">
+                <span className="ge-hero__pager-counter">
+                    {String(idx + 1).padStart(2, '0')} / {String(INDUSTRIES.length).padStart(2, '0')}
+                </span>
+                <div className="ge-hero__pager-dots" role="tablist" aria-label="Industries">
+                    {INDUSTRIES.map((item, i) => (
+                        <button
+                            key={item.key}
+                            type="button"
+                            className={`ge-hero__pager-dot${i < idx ? ' ge-hero__pager-dot--complete' : ''}`}
+                            onClick={() => jump(i)}
+                            role="tab"
+                            aria-selected={i === idx}
+                            aria-label={item.tag}
+                        >
+                            <span className="ge-hero__pager-dot-track" />
+                            {i === idx ? <PagerFill progress={progress} /> : null}
+                        </button>
+                    ))}
+                </div>
+                <span className="ge-hero__pager-label">{industry.tag}</span>
             </div>
         </section>
     );
 }
 
-function HeroDashboard({ industry }) {
-    const bars = pseudoBars(industry.key, 24);
-    return (
-        <motion.div
-            className="ge-hero__dashboard"
-            initial={swapOut.initial}
-            animate={swapOut.animate}
-            exit={swapOut.exit}
-        >
-            <div className="ge-hero__dashboard-head">
-                <span className="ge-hero__dashboard-head-title">
-                    <span className="ge-hero__ticker-dot" aria-hidden="true" />
-                    {industry.monitor.title}
-                </span>
-                <button type="button" className="ge-hero__ticker-btn">Review</button>
-            </div>
-
-            <div className="ge-hero__live-row">
-                <span className="ge-hero__live-badge">{industry.monitor.badgeLive}</span>
-                <span>{industry.monitor.focus}</span>
-                <strong style={{ color: 'var(--accent)' }}>{industry.monitor.focusValue}</strong>
-            </div>
-
-            <motion.div
-                className="ge-hero__dash-chart"
-                aria-hidden="true"
-                initial="hidden"
-                animate="show"
-                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.018 } } }}
-            >
-                {bars.map((b, i) => (
-                    <motion.span
-                        key={i}
-                        className={`ge-hero__dash-bar${b.hot ? ' ge-hero__dash-bar--hot' : ''}`}
-                        style={{ height: `${b.h}%` }}
-                        custom={i}
-                        variants={barItem}
-                    />
-                ))}
-            </motion.div>
-
-            <motion.div
-                className="ge-hero__dash-metrics"
-                initial="hidden"
-                animate="show"
-                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.15 } } }}
-            >
-                {industry.metrics.map(([label, value]) => (
-                    <motion.div
-                        className="ge-hero__dash-row"
-                        key={label}
-                        variants={{
-                            hidden: { opacity: 0, x: 8 },
-                            show: { opacity: 1, x: 0, transition: { duration: 0.35, ease: EASE } },
-                        }}
-                    >
-                        <span className="ge-hero__dash-label">{label}</span>
-                        <span className="ge-hero__dash-value">{value}</span>
-                    </motion.div>
-                ))}
-            </motion.div>
-        </motion.div>
-    );
-}
-
-/* Deterministic pseudo-random bar heights seeded by the industry key.
-   Keeps the chart visually different per industry without introducing
-   actual randomness (would re-render differently each tick). */
-function pseudoBars(seed, count) {
-    let h = 0;
-    for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
-    const out = [];
-    for (let i = 0; i < count; i++) {
-        h = (h * 1664525 + 1013904223) >>> 0;
-        const pct = 25 + ((h >>> 8) % 70);
-        out.push({ h: pct, hot: (h & 0b111) === 0 });
-    }
-    return out;
+/* Dedicated fill component so only the active dot subscribes to the motion
+   value — no re-renders on the others. */
+function PagerFill({ progress }) {
+    const ref = useRef(null);
+    useEffect(() => {
+        const unsub = progress.on('change', (v) => {
+            if (ref.current) ref.current.style.width = `${v * 100}%`;
+        });
+        return unsub;
+    }, [progress]);
+    return <span ref={ref} className="ge-hero__pager-dot-fill" />;
 }
 
 /* ---------- Section 2: Feature main (featuremain.webp) ----------- */

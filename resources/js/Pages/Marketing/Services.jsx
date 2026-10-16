@@ -8,7 +8,7 @@ export default function Services() {
     return (
         <>
             <Head title="Services" />
-            <PublicLayout>
+            <PublicLayout navSolid>
                 <section className="ge-page-hero">
                     <div className="container">
                         <span className="ge-page-hero__eyebrow">What we offer</span>

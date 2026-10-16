@@ -6,7 +6,7 @@ export default function About() {
     return (
         <>
             <Head title="About" />
-            <PublicLayout>
+            <PublicLayout navSolid>
                 <section className="ge-page-hero">
                     <div className="container">
                         <span className="ge-page-hero__eyebrow">About</span>

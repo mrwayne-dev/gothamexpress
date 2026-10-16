@@ -17,7 +17,7 @@ export default function Terms() {
     return (
         <>
             <Head title="Terms of service" />
-            <PublicLayout>
+            <PublicLayout navSolid>
                 <section className="ge-page-hero">
                     <div className="container">
                         <span className="ge-page-hero__eyebrow">Legal</span>

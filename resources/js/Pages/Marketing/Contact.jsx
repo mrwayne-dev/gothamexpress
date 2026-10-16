@@ -26,7 +26,7 @@ export default function Contact({ flash }) {
     return (
         <>
             <Head title="Contact us" />
-            <PublicLayout>
+            <PublicLayout navSolid>
                 <section className="ge-page-hero">
                     <div className="container">
                         <span className="ge-page-hero__eyebrow">Get in touch</span>

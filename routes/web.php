@@ -18,6 +18,9 @@ Route::get('/terms', [PublicController::class, 'terms'])->name('terms');
 Route::get('/contact', [ContactController::class, 'create'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:5,10');
 
+// /tracking stub — Day-5 replaces this with the real public tracking form.
+Route::redirect('/tracking', '/login')->name('tracking');
+
 // Theme preference (open to guests and users; just writes a cookie).
 Route::post('/preferences/theme', [ThemeController::class, 'update'])->name('preferences.theme');
 

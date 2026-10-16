@@ -3,368 +3,250 @@
    One file per layout, kept together for review.
    ============================================================ */
 
-/* --- 1. Hero (herosection.webp) — 95vh with bolder frame ----------- */
+/* --- 1. Hero — full-bleed photo carousel, Vooma-style -------------- */
 .ge-hero {
     position: relative;
-    padding: var(--space-lg) 0;
-    background: var(--surface);
-    min-height: calc(95vh - 65px);
-    min-height: calc(95dvh - 65px);
-    display: flex;
-    align-items: stretch;
-}
-.ge-hero .container {
+    min-height: 100vh;
+    min-height: 100dvh;
+    color: var(--color-cream);
+    background: var(--color-ink);
+    overflow: hidden;
+    isolation: isolate;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* Image stack — one img per industry, swapped via opacity. */
+.ge-hero__media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: -2;
+}
+.ge-hero__media-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    will-change: opacity;
+}
+.ge-hero__media-slide img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    animation: ge-hero-pan 24s ease-in-out infinite alternate;
 }
-.ge-hero__frame {
-    position: relative;
-    padding: var(--space-xl);
-    border: 2px solid var(--text);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-.ge-hero__frame::before,
-.ge-hero__frame::after {
-    content: '';
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    border: 2px solid var(--text);
-    background: var(--surface);
-}
-.ge-hero__frame::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
-.ge-hero__frame::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
-.ge-hero__corner-tr {
-    position: absolute;
-    top: -2px; right: -2px;
-    width: 18px; height: 18px;
-    border: 2px solid var(--text);
-    border-left: 0; border-bottom: 0;
-    background: var(--surface);
-}
-.ge-hero__corner-bl {
-    position: absolute;
-    bottom: -2px; left: -2px;
-    width: 18px; height: 18px;
-    border: 2px solid var(--text);
-    border-right: 0; border-top: 0;
-    background: var(--surface);
+@keyframes ge-hero-pan {
+    from { transform: scale(1.03) translateX(0); }
+    to   { transform: scale(1.1)  translateX(-1.5%); }
 }
 
-.ge-hero__grid {
-    display: grid;
-    grid-template-columns: 1.3fr 1px 1fr;
-    gap: var(--space-2xl);
-    align-items: stretch;
-    flex: 1;
-    min-height: 0;
-}
-.ge-hero__divider {
-    align-self: stretch;
+/* Dark overlay for text contrast — darker at the bottom */
+.ge-hero__overlay {
+    position: absolute;
+    inset: 0;
     background:
-        repeating-linear-gradient(
-            to bottom,
-            var(--text) 0 1px,
-            transparent 1px 12px
-        );
-    width: 2px;
-}
-.ge-hero__left {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: var(--space-xl);
-    padding-right: var(--space-base);
+        linear-gradient(180deg,
+            rgba(10, 7, 4, 0.55) 0%,
+            rgba(10, 7, 4, 0.25) 28%,
+            rgba(10, 7, 4, 0.72) 85%,
+            rgba(10, 7, 4, 0.92) 100%);
+    z-index: -1;
+    pointer-events: none;
 }
 
-/* Reserve vertical space for the dynamic headline so swapping industries
-   doesn't shift the layout below it (the actions + dropdown). */
-.ge-hero__title-wrap {
-    min-height: 240px;
-    display: flex;
-    align-items: flex-end;
-    margin-top: var(--space-base);
+/* Thin vertical grid guides across the max-width band */
+.ge-hero__grid-lines {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: var(--container-max);
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    pointer-events: none;
+    z-index: -1;
+}
+.ge-hero__grid-lines span {
+    border-right: 1px solid rgba(245, 239, 227, 0.07);
+    height: 100%;
+}
+.ge-hero__grid-lines span:first-child {
+    border-left: 1px solid rgba(245, 239, 227, 0.07);
+}
+
+/* Content layer — anchored to the bottom */
+.ge-hero__content {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--space-5xl) var(--space-xl) var(--space-xl);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-lg);
+    align-items: end;
+    z-index: 1;
+}
+.ge-hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--color-cream);
+    opacity: 0.78;
+    margin-bottom: var(--space-base);
+    font-weight: var(--font-weight-medium);
+}
+.ge-hero__eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 14px; height: 2px;
+    background: var(--accent);
 }
 .ge-hero__title {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 4.4vw, 4.75rem);
+    font-size: clamp(2.25rem, 6vw, 5.5rem);
     font-weight: var(--font-weight-bold);
-    letter-spacing: var(--letter-spacing-tight);
-    line-height: 1.04;
-    color: var(--text);
-    max-width: 15ch;
+    letter-spacing: var(--letter-spacing-tightest);
+    line-height: 0.98;
+    color: var(--color-white);
+    max-width: 20ch;
     margin: 0;
-    /* word-stagger needs each word to be inline-block for transforms */
 }
 .ge-hero__title-word {
     display: inline-block;
     will-change: transform, opacity;
 }
-@media (max-width: 992px) {
-    .ge-hero__title-wrap { min-height: 180px; }
-}
-@media (max-width: 576px) {
-    .ge-hero__title-wrap { min-height: 140px; }
-}
-.ge-hero__actions {
-    margin-top: var(--space-xl);
-    display: flex;
-    gap: var(--space-sm);
-    flex-wrap: wrap;
+.ge-hero__lede {
+    color: rgba(245, 239, 227, 0.72);
+    font-size: var(--font-size-base);
+    max-width: 46ch;
+    margin-top: var(--space-base);
+    line-height: var(--line-height-relaxed);
 }
 
-/* Industry picker — a real dropdown with the active label + caret */
-.ge-industry {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: var(--space-base);
-    margin-top: auto;
-}
-.ge-industry__label {
-    font-size: var(--font-size-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wider);
-    color: var(--text-muted);
-    font-weight: var(--font-weight-medium);
-}
-.ge-industry__trigger {
+.ge-hero__cta-group {
     display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-lg);
-    min-width: 320px;
-    padding: 12px 18px;
-    border: 2px solid var(--text);
-    border-radius: var(--radius-sm);
-    background: var(--surface);
-    color: var(--text);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    cursor: pointer;
-    text-align: left;
-    transition: background var(--transition-fast);
-}
-.ge-industry__trigger:hover { background: var(--surface-raised); }
-.ge-industry__trigger-label {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-sm);
-    flex: 1;
-}
-.ge-industry__trigger-label::before {
-    content: '';
-    display: inline-block;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-}
-.ge-industry__caret {
-    display: inline-flex;
-    transition: transform var(--transition-fast);
-}
-.ge-industry[data-open='true'] .ge-industry__caret { transform: rotate(180deg); }
-
-.ge-industry__panel {
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 0;
-    min-width: 360px;
-    max-width: 440px;
-    background: var(--surface);
-    border: 2px solid var(--text);
-    border-radius: var(--radius-sm);
-    padding: var(--space-xs) 0;
-    z-index: var(--z-dropdown);
-    max-height: 60vh;
-    overflow-y: auto;
-}
-.ge-industry__item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    width: 100%;
-    padding: 10px 16px;
-    background: none;
-    border: 0;
-    color: var(--text);
-    font-size: var(--font-size-sm);
-    text-align: left;
-    cursor: pointer;
-    transition: background var(--transition-fast);
-}
-.ge-industry__item:hover { background: var(--surface-raised); }
-.ge-industry__item--active {
-    background: var(--surface-raised);
-    font-weight: var(--font-weight-semibold);
-}
-.ge-industry__item-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--border-strong);
-    display: inline-block;
-    flex-shrink: 0;
-}
-.ge-industry__item--active .ge-industry__item-dot { background: var(--accent); }
-
-/* Right column: full-height dark monitoring card (jet image removed) */
-.ge-hero__right {
-    display: flex;
-    flex-direction: column;
     align-items: stretch;
-    height: 100%;
-    min-height: 0;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xs);
 }
-.ge-hero__dashboard {
-    background: var(--color-ink);
-    color: var(--color-cream);
-    border: 2px solid var(--text);
-    border-radius: var(--radius-sm);
-    padding: var(--space-xl);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-    min-height: 0;
-}
-.ge-hero__dashboard-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-base);
-    padding-bottom: var(--space-base);
-    border-bottom: 1px solid var(--color-ink-700);
-}
-.ge-hero__dashboard-head-title {
+.ge-hero__cta {
     display: inline-flex;
     align-items: center;
     gap: var(--space-sm);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    letter-spacing: var(--letter-spacing-tight);
-    color: var(--color-cream);
-}
-.ge-hero__ticker-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: ge-pulse 1.8s ease-in-out infinite;
-}
-@keyframes ge-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-}
-.ge-hero__ticker-btn {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wider);
-    color: var(--color-cream);
-    border: 1px solid var(--color-ink-500);
-    border-radius: var(--radius-xs);
-    padding: 6px 12px;
-    cursor: pointer;
-    background: transparent;
-    transition: background var(--transition-fast);
-    font-weight: var(--font-weight-medium);
-}
-.ge-hero__ticker-btn:hover { background: var(--color-ink-700); }
-
-.ge-hero__live-row {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: 6px 12px;
-    background: var(--color-ink-800);
-    border: 1px solid var(--color-ink-700);
-    border-radius: var(--radius-xs);
-    font-size: var(--font-size-xs);
-    width: fit-content;
-    color: var(--color-cream);
-}
-.ge-hero__live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 3px 8px;
+    padding: 18px 28px;
     background: var(--accent);
     color: var(--color-white);
-    border-radius: 2px;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wider);
-    font-weight: var(--font-weight-semibold);
-}
-
-.ge-hero__dash-metrics {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    flex: 1;
-    justify-content: flex-end;
-}
-.ge-hero__dash-row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: var(--space-base);
-    padding: 10px 0;
-    border-bottom: 1px solid var(--color-ink-700);
+    border: 0;
+    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
     font-size: var(--font-size-xs);
-}
-.ge-hero__dash-row:last-child { border-bottom: 0; }
-.ge-hero__dash-label {
     text-transform: uppercase;
     letter-spacing: var(--letter-spacing-wider);
-    color: var(--color-ink-300);
     font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: background var(--transition-fast);
 }
-.ge-hero__dash-value {
-    color: var(--accent);
-    font-weight: var(--font-weight-semibold);
+.ge-hero__cta:hover { background: var(--accent-hover); color: var(--color-white); }
+.ge-hero__cta-arrow {
+    display: inline-grid;
+    place-content: center;
+    width: 56px;
+    background: var(--accent);
+    color: var(--color-white);
+    border-radius: var(--radius-xs);
+    transition: background var(--transition-fast);
+}
+.ge-hero__cta-arrow:hover { background: var(--accent-hover); color: var(--color-white); }
+
+/* Pager — row of 4 segment bars + counter + active label */
+.ge-hero__pager {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--space-xl) var(--space-xl);
+    z-index: 1;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
     text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wide);
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--color-cream);
+}
+.ge-hero__pager-counter {
+    opacity: 0.72;
+    font-weight: var(--font-weight-medium);
     font-variant-numeric: tabular-nums;
 }
-
-.ge-hero__dash-chart {
-    display: grid;
-    grid-template-columns: repeat(24, 1fr);
-    gap: 3px;
-    align-items: flex-end;
-    height: 56px;
-    margin-top: var(--space-base);
+.ge-hero__pager-dots {
+    display: flex;
+    gap: var(--space-sm);
+    flex: 1;
+    max-width: 560px;
 }
-.ge-hero__dash-bar {
-    background: var(--color-cream);
-    opacity: 0.5;
-    border-radius: 1px;
-    min-height: 4px;
-    transform-origin: bottom;
-    will-change: transform, opacity;
+.ge-hero__pager-dot {
+    position: relative;
+    flex: 1;
+    height: 24px;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
 }
-.ge-hero__dash-bar--hot {
+.ge-hero__pager-dot-track {
+    position: absolute;
+    inset: 11px 0 auto 0;
+    height: 2px;
+    background: rgba(245, 239, 227, 0.2);
+}
+.ge-hero__pager-dot-fill {
+    position: absolute;
+    inset: 11px auto auto 0;
+    width: 0;
+    height: 2px;
     background: var(--accent);
-    opacity: 1;
+    will-change: width;
 }
+.ge-hero__pager-dot--complete .ge-hero__pager-dot-fill { width: 100%; }
 
-/* Reserve vertical space on the right pane so the industry switch's exit
-   animation doesn't let the dashboard collapse to zero height. */
-.ge-hero__right { min-height: 440px; }
-@media (max-width: 992px) { .ge-hero__right { min-height: 420px; } }
+.ge-hero__pager-label {
+    opacity: 0.88;
+    font-weight: var(--font-weight-medium);
+    min-width: 220px;
+    text-align: right;
+}
 
 @media (max-width: 992px) {
-    .ge-hero { min-height: auto; padding-block: var(--space-2xl); }
-    .ge-hero__grid { grid-template-columns: 1fr; }
-    .ge-hero__divider { display: none; }
-    .ge-industry__trigger { min-width: 100%; }
-    .ge-industry__panel { max-width: 100%; }
+    .ge-hero__content {
+        grid-template-columns: 1fr;
+        padding: calc(var(--space-5xl) + var(--space-xl)) var(--space-lg) var(--space-base);
+    }
+    .ge-hero__cta-group { margin-top: var(--space-base); }
+    .ge-hero__pager-dots { max-width: none; }
+    .ge-hero__pager-label { display: none; }
 }
 @media (max-width: 576px) {
-    .ge-hero__frame { padding: var(--space-base); }
-    .ge-hero__dashboard { padding: var(--space-base); }
+    .ge-hero__title { font-size: clamp(1.75rem, 8vw, 3rem); max-width: 100%; }
+    .ge-hero__content {
+        padding: calc(var(--space-4xl) + var(--space-lg)) var(--space-base) var(--space-base);
+    }
+    .ge-hero__pager {
+        padding: 0 var(--space-base) var(--space-base);
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+    }
+    .ge-hero__pager-dots { order: 3; width: 100%; }
+    .ge-hero__cta { padding: 14px 20px; }
+    .ge-hero__cta-arrow { width: 48px; }
 }
 
 /* --- 2. Feature-main (featuremain.webp) — grid-divider block ------- */
